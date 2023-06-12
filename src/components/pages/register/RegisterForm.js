@@ -2,11 +2,12 @@ import React, { useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import { Modal } from "../../common";
 
-const LoginForm = () => {
+const RegisterForm = () => {
 	const [login, setLogin] = useState(false);
 	const [inputs, setInputs] = useState({
 		email: "",
 		password: "",
+		confirmPassword: "",
 	});
 	const [status, setStatus] = useState({
 		type: "",
@@ -44,7 +45,7 @@ const LoginForm = () => {
 			.then((res) => res.json())
 			.then((data) => console.log(data))
 			.catch((error) => {
-				console.log(error);
+				console.error(error);
 				setStatus({
 					type: "danger",
 					message: "Something went wrong",
@@ -52,30 +53,6 @@ const LoginForm = () => {
 				});
 			});
 	};
-	//     .then((result) => {
-	//         /*
-	//          * NOTE:
-	//          * Only an example. make the authentication stronger by using your own authentication.
-	//          * */
-
-	//         if (result.message === 'OK') {
-	//             localStorage.setItem('orange_login', 'true');
-	//             localStorage.setItem('orange_user', JSON.stringify(result.user));
-
-	//             setLogin(true);
-	//         } else {
-	//             localStorage.setItem('orange_login', 'false');
-	//             setLogin(false);
-	//             setStatus({
-	//                 type: 'danger',
-	//                 message: 'Something went wrong',
-	//                 error: result.message,
-	//             });
-	//             openModal({
-	//                 title:'Error',
-	//             })
-	//         }
-	//     })
 
 	const openModal = (modal) => {
 		setModal(modal);
@@ -101,29 +78,16 @@ const LoginForm = () => {
 					}
 				>
 					<span className={"font-bold pr-2 mr-2 border-gray-500 text-4xl"}>
-						Login
+						Register
 					</span>
 				</h1>
 				<p className={"text-center text-sm mb-8 text-white-800"}>
-					Don't have an account?{" "}
-					<Link className={"font-bold hover:text-black"} to={"/register"}>
-						Register
+					Already have an account?{" "}
+					<Link className={"font-bold hover:text-black"} to={"/login"}>
+						Login
 					</Link>
 				</p>
 				<form onSubmit={handleSubmit}>
-					{/* <div className={"my-3"}>
-						<label className={"text-sm mb-1 inline-block"}>Username</label>
-						<input
-							type="text"
-							className={
-								"p-2 rounded-lg w-full border-2 focus:border-primary hover:border-gray-400 outline-none dark:bg-gray-700"
-							}
-							placeholder={"Username"}
-							name={"username"}
-							onChange={handleChange}
-							autoComplete={"off"}
-						/>
-					</div> */}
 					<div className={"my-3"}>
 						<label className={"text-sm mb-1 inline-block"}>Email</label>
 						<input
@@ -132,7 +96,7 @@ const LoginForm = () => {
 								"p-2 rounded-lg w-full border-2 focus:border-primary hover:border-gray-400 outline-none dark:bg-gray-700"
 							}
 							placeholder={"Email"}
-							name={"email"}
+							name={"username"}
 							onChange={handleChange}
 							autoComplete={"off"}
 						/>
@@ -149,26 +113,40 @@ const LoginForm = () => {
 							onChange={handleChange}
 						/>
 					</div>
+					<div className={"my-3"}>
+						<label className={"text-sm mb-1 inline-block"}>
+							Confirm Password
+						</label>
+						<input
+							type="password"
+							className={
+								"p-2 rounded-lg w-full border-2 focus:border-primary hover:border-gray-400 outline-none dark:bg-gray-700"
+							}
+							placeholder={"Confirm Password"}
+							name={"confirmPassword"}
+							onChange={handleChange}
+						/>
+					</div>
 					<div className={"flex justify-end mt-6"}>
 						<button
 							type={"submit"}
 							className={"py-3 px-6 rounded bg-white text-black"}
 						>
-							Login
+							Register
 						</button>
 					</div>
 				</form>
 			</div>
-			<div
+			{/* <div
 				className={
 					"login-wrapper text-white rounded-2xl px-8 py-6 mt-6 " +
 					(status.type !== "" ? "bg-" + status.type : "")
 				}
 			>
 				{status.error}
-			</div>
+			</div> */}
 		</>
 	);
 };
 
-export default LoginForm;
+export default RegisterForm;
