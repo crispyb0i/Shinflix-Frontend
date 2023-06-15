@@ -1,11 +1,13 @@
-import { Fragment } from "react";
+import { Fragment, useContext } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
-import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { ThemeToggle } from "../common";
+import { AuthContext } from "../../contexts/AuthContext";
+import { ShinflixLogo } from "../../../src/assets/images";
 
 const navigation = [
 	{ name: "Home", href: "/", current: false },
-	{ name: "Team", href: "#", current: false },
+	{ name: "Secret", href: "/secret", current: false },
 	{ name: "Projects", href: "#", current: false },
 	{ name: "Calendar", href: "#", current: false },
 ];
@@ -15,6 +17,9 @@ function classNames(...classes) {
 }
 
 export default function Navbar() {
+	const { loggedIn, user } = useContext(AuthContext);
+	console.log("LOGGED IN", loggedIn);
+	console.log("USERRR", user);
 	return (
 		<Disclosure
 			as="nav"
@@ -39,12 +44,12 @@ export default function Navbar() {
 								<div className="flex flex-shrink-0 items-center">
 									<img
 										className="block h-8 w-auto lg:hidden"
-										src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
+										src={ShinflixLogo}
 										alt="Your Company"
 									/>
 									<img
 										className="hidden h-8 w-auto lg:block"
-										src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
+										src={ShinflixLogo}
 										alt="Your Company"
 									/>
 								</div>
@@ -126,19 +131,35 @@ export default function Navbar() {
 													</a>
 												)}
 											</Menu.Item>
-											<Menu.Item>
-												{({ active }) => (
-													<a
-														href="/login"
-														className={classNames(
-															active ? "bg-gray-100" : "",
-															"block px-4 py-2 text-sm text-gray-700"
-														)}
-													>
-														Login
-													</a>
-												)}
-											</Menu.Item>
+											{loggedIn ? (
+												<Menu.Item>
+													{({ active }) => (
+														<a
+															href="/logout"
+															className={classNames(
+																active ? "bg-gray-100" : "",
+																"block px-4 py-2 text-sm text-gray-700"
+															)}
+														>
+															Logout
+														</a>
+													)}
+												</Menu.Item>
+											) : (
+												<Menu.Item>
+													{({ active }) => (
+														<a
+															href="/login"
+															className={classNames(
+																active ? "bg-gray-100" : "",
+																"block px-4 py-2 text-sm text-gray-700"
+															)}
+														>
+															Login
+														</a>
+													)}
+												</Menu.Item>
+											)}
 										</Menu.Items>
 									</Transition>
 								</Menu>

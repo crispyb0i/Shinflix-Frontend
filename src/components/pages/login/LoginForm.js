@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import { Modal } from "../../common";
+import { AuthContext } from "../../../contexts/AuthContext";
 
 const LoginForm = () => {
-	const [login, setLogin] = useState(false);
+	const { loggedIn, login, logout } = useContext(AuthContext);
+	// const [login, setLogin] = useState(false);
 	const [inputs, setInputs] = useState({
-		email: "",
+		username: "",
 		password: "",
 	});
 	const [status, setStatus] = useState({
@@ -30,52 +32,9 @@ const LoginForm = () => {
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
-		const { username, email, password } = inputs;
-		console.log(username, email, password);
-		// let api_base = process.env.REACT_APP_API_BASE;
-
-		fetch("http://localhost:8000/register", {
-			method: "post",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify(inputs),
-		})
-			.then((res) => res.json())
-			.then((data) => console.log(data))
-			.catch((error) => {
-				console.log(error);
-				setStatus({
-					type: "danger",
-					message: "Something went wrong",
-					error: error,
-				});
-			});
+		console.log(inputs);
+		login(inputs);
 	};
-	//     .then((result) => {
-	//         /*
-	//          * NOTE:
-	//          * Only an example. make the authentication stronger by using your own authentication.
-	//          * */
-
-	//         if (result.message === 'OK') {
-	//             localStorage.setItem('orange_login', 'true');
-	//             localStorage.setItem('orange_user', JSON.stringify(result.user));
-
-	//             setLogin(true);
-	//         } else {
-	//             localStorage.setItem('orange_login', 'false');
-	//             setLogin(false);
-	//             setStatus({
-	//                 type: 'danger',
-	//                 message: 'Something went wrong',
-	//                 error: result.message,
-	//             });
-	//             openModal({
-	//                 title:'Error',
-	//             })
-	//         }
-	//     })
 
 	const openModal = (modal) => {
 		setModal(modal);
@@ -86,7 +45,7 @@ const LoginForm = () => {
 		setIsOpen(false);
 	};
 
-	return login ? (
+	return loggedIn ? (
 		<Navigate to={"/"} />
 	) : (
 		<>
@@ -111,28 +70,15 @@ const LoginForm = () => {
 					</Link>
 				</p>
 				<form onSubmit={handleSubmit}>
-					{/* <div className={"my-3"}>
-						<label className={"text-sm mb-1 inline-block"}>Username</label>
-						<input
-							type="text"
-							className={
-								"p-2 rounded-lg w-full border-2 focus:border-primary hover:border-gray-400 outline-none dark:bg-gray-700"
-							}
-							placeholder={"Username"}
-							name={"username"}
-							onChange={handleChange}
-							autoComplete={"off"}
-						/>
-					</div> */}
 					<div className={"my-3"}>
 						<label className={"text-sm mb-1 inline-block"}>Email</label>
 						<input
-							type="text"
+							type="email"
 							className={
 								"p-2 rounded-lg w-full border-2 focus:border-primary hover:border-gray-400 outline-none dark:bg-gray-700"
 							}
 							placeholder={"Email"}
-							name={"email"}
+							name={"username"}
 							onChange={handleChange}
 							autoComplete={"off"}
 						/>
@@ -165,7 +111,7 @@ const LoginForm = () => {
 					(status.type !== "" ? "bg-" + status.type : "")
 				}
 			>
-				{status.error}
+				{JSON.stringify(status.error)}
 			</div>
 		</>
 	);

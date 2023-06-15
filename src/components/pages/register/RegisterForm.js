@@ -5,7 +5,7 @@ import { Modal } from "../../common";
 const RegisterForm = () => {
 	const [login, setLogin] = useState(false);
 	const [inputs, setInputs] = useState({
-		email: "",
+		username: "",
 		password: "",
 		confirmPassword: "",
 	});
@@ -31,19 +31,25 @@ const RegisterForm = () => {
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
-		const { username, email, password } = inputs;
-		console.log(username, email, password);
-		// let api_base = process.env.REACT_APP_API_BASE;
+		const { username, password, confirmPassword } = inputs;
+		console.log(username, password);
 
 		fetch("http://localhost:8000/register", {
-			method: "post",
+			method: "POST",
 			headers: {
 				"Content-Type": "application/json",
 			},
 			body: JSON.stringify(inputs),
 		})
-			.then((res) => res.json())
-			.then((data) => console.log(data))
+			.then((res) => {
+				console.log(res);
+				if (res.ok) {
+					setLogin(true);
+				} else {
+					console.log("Problem creating account");
+				}
+			})
+			// .then((data) => console.log(data))
 			.catch((error) => {
 				console.error(error);
 				setStatus({
