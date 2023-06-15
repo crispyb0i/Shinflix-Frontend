@@ -4,12 +4,14 @@ import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { ThemeToggle } from "../common";
 import { AuthContext } from "../../contexts/AuthContext";
 import { ShinflixLogo } from "../../../src/assets/images";
+import { Link } from "react-router-dom";
 
 const navigation = [
 	{ name: "Home", href: "/", current: false },
+	{ name: "Movies", href: "/movies", current: false },
+	{ name: "Shows", href: "/shows", current: false },
+	{ name: "People", href: "/people", current: false },
 	{ name: "Secret", href: "/secret", current: false },
-	{ name: "Projects", href: "#", current: false },
-	{ name: "Calendar", href: "#", current: false },
 ];
 
 function classNames(...classes) {
@@ -23,7 +25,7 @@ export default function Navbar() {
 	return (
 		<Disclosure
 			as="nav"
-			className="bg-gray-800 sticky top-0 border-b-4 border-indigo-500"
+			className="bg-gray-800 sticky top-0 border-b-2 border-indigo-500"
 		>
 			{({ open }) => (
 				<>
@@ -41,18 +43,18 @@ export default function Navbar() {
 								</Disclosure.Button>
 							</div>
 							<div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-								<div className="flex flex-shrink-0 items-center">
+								<Link className="flex flex-shrink-0 items-center" to={"/"}>
 									<img
 										className="block h-8 w-auto lg:hidden"
 										src={ShinflixLogo}
-										alt="Your Company"
+										alt="Shinflix"
 									/>
 									<img
 										className="hidden h-8 w-auto lg:block"
 										src={ShinflixLogo}
-										alt="Your Company"
+										alt="Shinflix"
 									/>
-								</div>
+								</Link>
 								<div className="hidden sm:ml-6 sm:block">
 									<div className="flex space-x-4">
 										{navigation.map((item) => (

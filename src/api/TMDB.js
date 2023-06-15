@@ -1,5 +1,6 @@
 const TMDB_API_URL = process.env.REACT_APP_TMDB_API_URL;
 
+// options for API authentication
 const options = {
 	method: "GET",
 	headers: {
@@ -8,6 +9,19 @@ const options = {
 	},
 };
 
+// TRENDING ALL
+
+export const fetchTrendingAllByDay = async () => {
+	try {
+		const response = await fetch(`${TMDB_API_URL}/trending/all/day`, options);
+		return response.json();
+	} catch (err) {
+		console.error(err);
+		throw new Error("Failed to fetch trending all by day");
+	}
+};
+
+// MULTI SEARCH API
 // Use multi search when you want to search for
 // movies, TV shows and people in a single request.
 
@@ -27,20 +41,21 @@ export const multiSearch = (
 			throw new Error("Failed to perform multi-search");
 		});
 
-//https://api.themoviedb.org/3/search/multi?query=toy&include_adult=false&language=en-US&page=1
+// Movie APIs
+//Get the top level details of a movie by ID.
 
-// "results": [
-//   {
-//       "adult": false,
-//       "backdrop_path": null,
-//       "id": 936958,
-//       "name": "Hello Yasothorn Collection",
-//       "original_language": "en",
-//       "original_name": "Hello Yasothorn Collection",
-//       "overview": "The story is set in 1967 in Yasothon Province, Thailand, where Yam is a hard-working, humble, and kind farmer—kind, that is, except when it comes to the attentions of Joei, the homely maid of Soy, who is the girlfriend of Yam's cousin, Tong. Yam nurses stray and injured animals of all kinds, but he never has nice things to say to Joei. Despite this, she persists in flirting with Yam and making unwanted physical advances. Meanwhile, Soy and Tong cuddle, kiss and hug each other at every opportunity.",
-//       "poster_path": null
-//   },
-// ],
+export const getMovieDetails = async (movie_id) => {
+	try {
+		const response = await fetch(
+			`https://api.themoviedb.org/3/movie/${movie_id}?language=en-US`,
+			options
+		);
+		return response.json();
+	} catch (err) {
+		console.error(err);
+		throw new Error("Failed to perform movie search");
+	}
+};
 
 // IMAGE DOCUMENTATION
 // https://developer.themoviedb.org/docs/image-basics
