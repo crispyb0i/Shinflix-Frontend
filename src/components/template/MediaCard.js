@@ -12,6 +12,7 @@ const MediaCard = ({
 	const [imageError, setImageError] = useState(false);
 
 	const handleImageError = () => {
+		console.log("HANDLEIMAGEERROR");
 		setImageError(true);
 	};
 

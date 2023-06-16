@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router";
-import { getMovieDetails } from "../../../api/TMDB";
+import { fetchMovieDetails } from "../../../api/tmdb/index";
 import { LoadingSpinner } from "../../common";
+import { addToUserFavorites } from "../../../services/firebase/firestore";
 
 export const MoviePage = () => {
 	const [movieData, setMovieData] = useState(null);
@@ -39,7 +40,7 @@ export const MoviePage = () => {
 		const fetchMovieData = async () => {
 			setLoading(true);
 			try {
-				const response = await getMovieDetails(movieId);
+				const response = await fetchMovieDetails(movieId);
 				setMovieData(response);
 				setLoading(false);
 			} catch (error) {
@@ -53,32 +54,45 @@ export const MoviePage = () => {
 
 	console.log(movieData);
 
+	const handleFavorite = async () => {
+		console.log("HANDLE FAVORITE");
+		try {
+			await addToUserFavorites("3fVeoMn3XURhHmnVG5ea", {
+				title,
+				id,
+				poster_path,
+			});
+			console.log("ADDED TO FAVORITES");
+		} catch (error) {
+			console.error("ERROR adding to favorites ", error);
+		}
+	};
+
 	return (
 		<>
 			{loading ? (
-				<div
-					className={"flex flex-col min-h-screen items-center justify-center"}
-				>
+				<div className={"flex min-h-screen items-center justify-center"}>
 					<LoadingSpinner />
 				</div>
 			) : (
-				<div className={"relative h-128"}>
-					{/* <div className="absolute inset-0 bg-gradient-to-b from-gray-500 to-transparent opacity-25"></div> */}
+				<div className={"relative h-128  border-b-2 border-#726a5c"}>
 					<div
-						className="absolute inset-0 bg-cover bg-center"
+						className="absolute inset-0 bg-cover bg-center from-pink-500 hover:to-yellow-500"
 						style={{
-							backgroundImage: `url(${process.env.REACT_APP_TMDB_IMAGE_URL}${backdrop_path})`,
-							opacity: 0.3, // Adjust the opacity value as needed (0.0 - 1.0)
-							zIndex: "-10",
+							backgroundImage: backdrop_path
+								? `url(${process.env.REACT_APP_TMDB_IMAGE_URL}${backdrop_path})`
+								: "linear-gradient(to bottom, white, red)",
+							opacity: backdrop_path && 0.2, // Adjust the opacity value as needed (0.0 - 1.0)
+							zIndex: "-9999",
 						}}
 					></div>
-					<div className={"flex p-20"}>
+					<div className={"flex p-20 justify-center"}>
 						<img
 							src={`${process.env.REACT_APP_TMDB_IMAGE_URL}${poster_path}`}
 							alt={`${title} backdrop`}
-							className={"w-72 h-108  rounded-lg mr-20"}
+							className={"flex-none w-72 h-108  rounded-lg"}
 						/>
-						<div className="text-white-700 min-w-60 max-w-96 w-auto">
+						<div className="text-white-700 hidden md:block ml-20">
 							<h1 className={"text-5xl font-bold"}>{title}</h1>
 							{tagline && <p className={"py-3 mb-3"}>{tagline}</p>}
 							{genres && (
@@ -100,8 +114,9 @@ export const MoviePage = () => {
 							<p>{overview}</p>
 						</div>
 					</div>
-
-					{/* <p>{JSON.stringify(movieData)}</p> */}
+					<button onClick={handleFavorite} className={"h20 w20"}>
+						FAVORITE
+					</button>
 				</div>
 			)}
 		</>

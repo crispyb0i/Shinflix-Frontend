@@ -3,9 +3,10 @@ import { Link, Navigate } from "react-router-dom";
 import { Modal } from "../../common";
 import { AuthContext } from "../../../contexts/AuthContext";
 
-const RegisterForm = () => {
-	const { signup } = useContext(AuthContext);
-	const [login, setLogin] = useState(false);
+export const UpdateCredentials = () => {
+	const { currentUser, updateUserPassword, updateUserEmail } =
+		useContext(AuthContext);
+	const [loading, setLoading] = useState(false);
 	const [inputs, setInputs] = useState({
 		username: "",
 		password: "",
@@ -31,9 +32,10 @@ const RegisterForm = () => {
 		});
 	};
 
-	const handleSubmit = (event) => {
+	const handleSubmit = async (event) => {
 		event.preventDefault();
-		const { username, password, confirmPassword } = inputs;
+		setLoading(true);
+		const { email, password, confirmPassword } = inputs;
 		if (password !== confirmPassword) {
 			setStatus({
 				type: "danger",
@@ -42,11 +44,38 @@ const RegisterForm = () => {
 			});
 			openModal({
 				title: "Error",
+				content: "Passwords do not match",
+				button: "HELLO",
 			});
-		} else {
-			signup(username, password);
-			setLogin(true);
 		}
+		const promises = [];
+		if (email !== currentUser.email) {
+			promises.push(updateUserEmail(email));
+		}
+
+		if (password) {
+			promises.push(updateUserPassword(password));
+		}
+
+		Promise.all(promises)
+			.then(() => {
+				setStatus({
+					type: "Success",
+					message: "Credentials have been updated!",
+					error: "",
+				});
+				<Navigate to="/" />;
+			})
+			.catch((err) => {
+				setStatus({
+					type: "danger",
+					message: "Update failed",
+					error: err.message,
+				});
+			})
+			.finally(() => {
+				setLoading(false);
+			});
 	};
 
 	const openModal = (modal) => {
@@ -58,7 +87,7 @@ const RegisterForm = () => {
 		setIsOpen(false);
 	};
 
-	return login ? (
+	return !currentUser ? (
 		<Navigate to={"/"} />
 	) : (
 		<>
@@ -66,22 +95,16 @@ const RegisterForm = () => {
 				{status.error}
 			</Modal>
 
-			<div>
+			<div className="flex flex-grow items-center justify-center flex-col dark:bg-gray-800 dark:text-gray-100 transition-all">
 				<h1
 					className={
 						"font-thin text-3xl text-center mb-6 flex items-end justify-center items-center"
 					}
 				>
 					<span className={"font-bold pr-2 mr-2 border-gray-500 text-4xl"}>
-						Register
+						Update Credentials
 					</span>
 				</h1>
-				<p className={"text-center text-sm mb-8 text-white-800"}>
-					Already have an account?{" "}
-					<Link className={"font-bold hover:text-black"} to={"/login"}>
-						Login
-					</Link>
-				</p>
 				<form onSubmit={handleSubmit}>
 					<div className={"my-3"}>
 						<label className={"text-sm mb-1 inline-block"}>Email</label>
@@ -91,22 +114,23 @@ const RegisterForm = () => {
 								"p-2 rounded-lg w-full border-2 focus:border-primary hover:border-gray-400 outline-none dark:bg-gray-700"
 							}
 							placeholder={"Email"}
-							name={"username"}
+							name={"email"}
 							onChange={handleChange}
 							autoComplete={"off"}
+							defaultValue={currentUser.email}
 						/>
 					</div>
 					<div className={"my-3"}>
-						<label className={"text-sm mb-1 inline-block"}>Password</label>
+						<label className={"text-sm mb-1 inline-block"}>New Password</label>
 						<input
 							type="password"
 							className={
 								"p-2 rounded-lg w-full border-2 focus:border-primary hover:border-gray-400 outline-none dark:bg-gray-700"
 							}
-							placeholder={"Password"}
+							placeholder={"Leave blank to leave the same"}
 							name={"password"}
 							onChange={handleChange}
-							required
+							minLength={6}
 						/>
 					</div>
 					<div className={"my-3"}>
@@ -118,34 +142,30 @@ const RegisterForm = () => {
 							className={
 								"p-2 rounded-lg w-full border-2 focus:border-primary hover:border-gray-400 outline-none dark:bg-gray-700"
 							}
-							placeholder={"Confirm Password"}
+							placeholder={"Leave blank to leave the same"}
 							name={"confirmPassword"}
 							onChange={handleChange}
-							required
+							minLength={6}
 						/>
 					</div>
 					<div className={"flex justify-end mt-6"}>
 						<button
 							type={"submit"}
-							className={
-								"py-3 px-6 w-full rounded bg-gray-500 hover:bg-gray-800 text-white rounded-lg"
-							}
+							className={"py-3 px-6 rounded bg-white text-black"}
 						>
-							Register
+							Update
 						</button>
+					</div>
+					<div
+						className={
+							"login-wrapper text-white rounded-2xl px-8 py-6 mt-6 " +
+							(status.type !== "" ? "bg-" + status.type : "")
+						}
+					>
+						{status.error.message}
 					</div>
 				</form>
 			</div>
-			{/* <div
-				className={
-					"login-wrapper text-white rounded-2xl px-8 py-6 mt-6 " +
-					(status.type !== "" ? "bg-" + status.type : "")
-				}
-			>
-				{status.error}
-			</div> */}
 		</>
 	);
 };
-
-export default RegisterForm;

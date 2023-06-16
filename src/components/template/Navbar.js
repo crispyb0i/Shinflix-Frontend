@@ -1,10 +1,11 @@
 import { Fragment, useContext } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-import { ThemeToggle } from "../common";
+// import { ThemeToggle } from "../common";
 import { AuthContext } from "../../contexts/AuthContext";
 import { ShinflixLogo } from "../../../src/assets/images";
 import { Link } from "react-router-dom";
+import { PhotoIcon, UserCircleIcon } from "@heroicons/react/24/solid";
 
 const navigation = [
 	{ name: "Home", href: "/", current: false },
@@ -19,13 +20,12 @@ function classNames(...classes) {
 }
 
 export default function Navbar() {
-	const { loggedIn, user } = useContext(AuthContext);
-	console.log("LOGGED IN", loggedIn);
-	console.log("USERRR", user);
+	const { currentUser } = useContext(AuthContext);
+	console.log("USERRR", currentUser);
 	return (
 		<Disclosure
 			as="nav"
-			className="bg-gray-800 sticky top-0 border-b-2 border-indigo-500"
+			className="bg-gray-800 sticky top-0 border-b-2 border-indigo-500 z-50"
 		>
 			{({ open }) => (
 				<>
@@ -83,18 +83,39 @@ export default function Navbar() {
 									<span className="sr-only">View notifications</span>
 									<BellIcon className="h-6 w-6" aria-hidden="true" />
 								</button> */}
-								<ThemeToggle />
+								{/* <ThemeToggle /> */}
 
 								{/* Profile dropdown */}
 								<Menu as="div" className="relative ml-3">
 									<div>
-										<Menu.Button className="flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+										<Menu.Button className="flex rounded-full bg-white text-sm ring-2 ring-red-700 ring-offset-2 ">
 											<span className="sr-only">Open user menu</span>
-											<img
-												className="h-8 w-8 rounded-full"
-												src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-												alt=""
-											/>
+											{currentUser && currentUser.photoURL ? (
+												<img
+													className="h-8 w-8 rounded-full object-cover"
+													src={currentUser.photoURL}
+													alt="profile"
+												/>
+											) : (
+												// <svg
+												// 	xmlns="http://www.w3.org/2000/svg"
+												// 	fill="none"
+												// 	viewBox="0 0 24 24"
+												// 	strokeWidth={1.5}
+												// 	stroke="currentColor"
+												// 	className="w-8 h-8 text-black"
+												// >
+												// 	<path
+												// 		strokeLinecap="round"
+												// 		strokeLinejoin="round"
+												// 		d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
+												// 	/>
+												// </svg>
+												<UserCircleIcon
+													className="h-8 w-8 object-cover text-gray-300"
+													aria-hidden="true"
+												/>
+											)}
 										</Menu.Button>
 									</div>
 									<Transition
@@ -107,33 +128,37 @@ export default function Navbar() {
 										leaveTo="transform opacity-0 scale-95"
 									>
 										<Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-											<Menu.Item>
-												{({ active }) => (
-													<a
-														href="#"
-														className={classNames(
-															active ? "bg-gray-100" : "",
-															"block px-4 py-2 text-sm text-gray-700"
-														)}
-													>
-														Your Profile
-													</a>
-												)}
-											</Menu.Item>
-											<Menu.Item>
-												{({ active }) => (
-													<a
-														href="#"
-														className={classNames(
-															active ? "bg-gray-100" : "",
-															"block px-4 py-2 text-sm text-gray-700"
-														)}
-													>
-														Settings
-													</a>
-												)}
-											</Menu.Item>
-											{loggedIn ? (
+											{currentUser && (
+												<Menu.Item>
+													{({ active }) => (
+														<a
+															href="#"
+															className={classNames(
+																active ? "bg-gray-100" : "",
+																"block px-4 py-2 text-sm text-gray-700"
+															)}
+														>
+															Your Profile
+														</a>
+													)}
+												</Menu.Item>
+											)}
+											{currentUser && (
+												<Menu.Item>
+													{({ active }) => (
+														<a
+															href="/user/edit/profile"
+															className={classNames(
+																active ? "bg-gray-100" : "",
+																"block px-4 py-2 text-sm text-gray-700"
+															)}
+														>
+															Settings
+														</a>
+													)}
+												</Menu.Item>
+											)}
+											{currentUser ? (
 												<Menu.Item>
 													{({ active }) => (
 														<a

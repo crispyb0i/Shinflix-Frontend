@@ -3,6 +3,7 @@ import { AuthContext } from "../../../contexts/AuthContext";
 // import { Link } from "react-router-dom";
 
 export function Secret() {
-	const { loggedIn } = useContext(AuthContext);
-	return <h1>{loggedIn ? "AUTHENTICATED" : "FRAUD"}</h1>;
+	const { currentUser } = useContext(AuthContext);
+	console.log("CUR", currentUser);
+	return <h1>{currentUser ? "AUTHENTICATED" : "FRAUD"}</h1>;
 }

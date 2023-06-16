@@ -1,8 +1,12 @@
+export { ForgotPassword } from "./forgotPassword/ForgotPassword";
 export { Home } from "./home/Home";
-export { Single } from "./single/Single";
 export { Login } from "./login/Login";
 export { Logout } from "./logout/Logout";
+export { MoviePage } from "./movie/MoviePage";
+export { NotFound } from "./NotFound";
+export { ProfilePage } from "./profile/ProfilePage";
 export { Register } from "./register/Register";
 export { Secret } from "./secret/Secret";
-export { NotFound } from "./NotFound";
-export { MoviePage } from "./moviePage/MoviePage";
+export { Single } from "./single/Single";
+export { UpdateCredentials } from "./updateCredentials/UpdateCredentials";
+export { UpdateProfile } from "./updateProfile/UpdateProfile";

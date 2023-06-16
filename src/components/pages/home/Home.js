@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { ShinflixLogo } from "../../../../src/assets/images";
-import { multiSearch, fetchTrendingAllByDay } from "../../../api/TMDB";
+import { multiSearch, fetchTrendingAllByDay } from "../../../api/tmdb/index";
 import MediaCard from "../../template/MediaCard";
 import { Link } from "react-router-dom";
 import { LoadingSpinner } from "../../common";
@@ -48,14 +48,14 @@ export const Home = () => {
 	};
 
 	return (
-		<div className="py-10 px-15 flex flex-col items-center justify-center dark:bg-gray-800 dark:text-white">
-			<img src={ShinflixLogo} className={"h-24"} alt="logo" />
+		<div className="flex flex-col flex-grow py-10 items-center justify-center dark:bg-gray-800 dark:text-white">
+			<img src={ShinflixLogo} className={"sm:h-24 h-20 mb-4"} alt="logo" />
 			<div className="my-3 w-1/2">
 				<form onSubmit={handleSubmit} className={"mb-10"}>
 					<div className="flex items-center py-2">
 						<input
 							type="text"
-							className="p-2 w-full h-14 border-2 focus:border-primary hover:border-gray-400 outline-none dark:bg-gray-700 rounded-l-lg text-lg"
+							className="p-2 sm:h-14 h-10 w-full border-2 focus:border-primary hover:border-gray-400 outline-none dark:bg-gray-700 rounded-l-lg text-lg"
 							placeholder="Search for a movie, TV show, or person"
 							name="search"
 							autoComplete="off"
@@ -65,7 +65,7 @@ export const Home = () => {
 						/>
 						<button
 							onSubmit={handleSubmit}
-							className="flex-shrink-0 bg-red-500 h-14 hover:bg-red-700 border-black-500 hover:border-black-700 text-sm border-1 text-white py-3 px-3 rounded-r-lg text-lg"
+							className="flex-shrink-0 sm:h-14 h-10 bg-red-500 md:h-14 h-10 hover:bg-red-700 border-black-500 hover:border-black-700 text-sm border-1 text-white py-3 px-3 rounded-r-lg text-lg"
 							type="submit"
 						>
 							Search
@@ -73,9 +73,9 @@ export const Home = () => {
 					</div>
 				</form>
 			</div>
-			<div>
+			{/* <div>
 				<h1>{JSON.stringify(trending)}</h1>
-			</div>
+			</div> */}
 			{loading ? (
 				<LoadingSpinner />
 			) : (
