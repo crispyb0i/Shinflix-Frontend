@@ -8,9 +8,7 @@ import {
 	ForgotPassword,
 	NotFound,
 	ProfilePage,
-	Single,
 	Register,
-	Secret,
 	MoviePage,
 	UpdateProfile,
 	UpdateCredentials,
@@ -28,26 +26,9 @@ function App() {
 							<Navbar />
 							<Routes>
 								<Route path={"/"} element={<Home />} />
-								<Route
-									path={"/single-title"}
-									element={
-										<PrivateRoute roles={["ROLE_USER"]} minlevel={2}>
-											<Single />
-										</PrivateRoute>
-									}
-								/>
-								<Route
-									path={"/users"}
-									element={
-										<PrivateRoute roles={["ROLE_ADMIN"]} minlevel={4}>
-											<Single />
-										</PrivateRoute>
-									}
-								/>
 								<Route path={"/login"} element={<Login />} />
 								<Route path={"/logout"} element={<Logout />} />
 								<Route path={"/forgot-password"} element={<ForgotPassword />} />
-								<Route path={"/secret"} element={<Secret />} />
 								<Route path={"/register"} element={<Register />} />
 								<Route
 									path={"/user/profile/:userid"}
@@ -56,17 +37,17 @@ function App() {
 								<Route path={"/movie/:movieid"} element={<MoviePage />} />
 
 								<Route
-									path={"/user/edit/profile"}
+									path={"/settings/profile"}
 									element={
-										<PrivateRoute roles={["ROLE_ADMIN"]} minlevel={4}>
+										<PrivateRoute>
 											<UpdateProfile />
 										</PrivateRoute>
 									}
 								/>
 								<Route
-									path={"/user/edit/update-credentials"}
+									path={"/settings/update-credentials"}
 									element={
-										<PrivateRoute roles={["ROLE_ADMIN"]} minlevel={4}>
+										<PrivateRoute>
 											<UpdateCredentials />
 										</PrivateRoute>
 									}

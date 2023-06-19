@@ -6,7 +6,5 @@ export { MoviePage } from "./movie/MoviePage";
 export { NotFound } from "./NotFound";
 export { ProfilePage } from "./profile/ProfilePage";
 export { Register } from "./register/Register";
-export { Secret } from "./secret/Secret";
-export { Single } from "./single/Single";
 export { UpdateCredentials } from "./updateCredentials/UpdateCredentials";
 export { UpdateProfile } from "./updateProfile/UpdateProfile";

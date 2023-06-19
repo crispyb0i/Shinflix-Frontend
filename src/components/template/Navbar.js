@@ -1,27 +1,35 @@
-import { Fragment, useContext } from "react";
-import { Disclosure, Menu, Transition } from "@headlessui/react";
-import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-// import { ThemeToggle } from "../common";
 import { AuthContext } from "../../contexts/AuthContext";
-import { ShinflixLogo } from "../../../src/assets/images";
+import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import { Disclosure, Menu, Transition } from "@headlessui/react";
+import { Fragment, useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { PhotoIcon, UserCircleIcon } from "@heroicons/react/24/solid";
-
-const navigation = [
-	{ name: "Home", href: "/", current: false },
-	{ name: "Movies", href: "/movies", current: false },
-	{ name: "Shows", href: "/shows", current: false },
-	{ name: "People", href: "/people", current: false },
-	{ name: "Secret", href: "/secret", current: false },
-];
+import { ShinflixLogo } from "../../../src/assets/images";
+import { UserCircleIcon } from "@heroicons/react/24/solid";
+import { useLocation } from "react-router-dom";
 
 function classNames(...classes) {
 	return classes.filter(Boolean).join(" ");
 }
 
 export default function Navbar() {
+	const [navigation, setNavigation] = useState([
+		{ name: "Home", href: "/", current: false },
+		{ name: "Movies", href: "/movies", current: false },
+		{ name: "Shows", href: "/shows", current: false },
+		{ name: "People", href: "/people", current: false },
+	]);
+
 	const { currentUser } = useContext(AuthContext);
-	console.log("USERRR", currentUser);
+	const currentPage = useLocation().pathname;
+
+	useEffect(() => {
+		const updatedNav = navigation.map((item) => ({
+			...item,
+			current: item.href === currentPage,
+		}));
+		setNavigation(updatedNav);
+	}, [currentPage]);
+
 	return (
 		<Disclosure
 			as="nav"
@@ -76,16 +84,6 @@ export default function Navbar() {
 								</div>
 							</div>
 							<div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-								{/* <button
-									type="button"
-									className="rounded-full bg-gray-800 p-1 text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
-								>
-									<span className="sr-only">View notifications</span>
-									<BellIcon className="h-6 w-6" aria-hidden="true" />
-								</button> */}
-								{/* <ThemeToggle /> */}
-
-								{/* Profile dropdown */}
 								<Menu as="div" className="relative ml-3">
 									<div>
 										<Menu.Button className="flex rounded-full bg-white text-sm ring-2 ring-red-700 ring-offset-2 ">
@@ -97,20 +95,6 @@ export default function Navbar() {
 													alt="profile"
 												/>
 											) : (
-												// <svg
-												// 	xmlns="http://www.w3.org/2000/svg"
-												// 	fill="none"
-												// 	viewBox="0 0 24 24"
-												// 	strokeWidth={1.5}
-												// 	stroke="currentColor"
-												// 	className="w-8 h-8 text-black"
-												// >
-												// 	<path
-												// 		strokeLinecap="round"
-												// 		strokeLinejoin="round"
-												// 		d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
-												// 	/>
-												// </svg>
 												<UserCircleIcon
 													className="h-8 w-8 object-cover text-gray-300"
 													aria-hidden="true"
@@ -132,7 +116,7 @@ export default function Navbar() {
 												<Menu.Item>
 													{({ active }) => (
 														<a
-															href="#"
+															href={`/user/profile/${currentUser.displayName}`}
 															className={classNames(
 																active ? "bg-gray-100" : "",
 																"block px-4 py-2 text-sm text-gray-700"
@@ -147,7 +131,7 @@ export default function Navbar() {
 												<Menu.Item>
 													{({ active }) => (
 														<a
-															href="/user/edit/profile"
+															href="/settings/profile"
 															className={classNames(
 																active ? "bg-gray-100" : "",
 																"block px-4 py-2 text-sm text-gray-700"
