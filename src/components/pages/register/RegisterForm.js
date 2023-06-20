@@ -4,19 +4,13 @@ import { Modal } from "../../common";
 import { AuthContext } from "../../../contexts/AuthContext";
 
 const RegisterForm = () => {
-	const { signup } = useContext(AuthContext);
-	const [login, setLogin] = useState(false);
+	const { addNewUser, currentUser, signup } = useContext(AuthContext);
 	const [inputs, setInputs] = useState({
 		username: "",
 		password: "",
 		confirmPassword: "",
 	});
-	const [status, setStatus] = useState({
-		type: "",
-		message: "",
-		error: "",
-	});
-
+	const [status, setStatus] = useState("");
 	const [isOpen, setIsOpen] = useState(false);
 	const [modal, setModal] = useState({
 		title: "",
@@ -34,18 +28,28 @@ const RegisterForm = () => {
 	const handleSubmit = (event) => {
 		event.preventDefault();
 		const { username, password, confirmPassword } = inputs;
+		const errorMessage = "Passwords do not match";
 		if (password !== confirmPassword) {
-			setStatus({
-				type: "danger",
-				message: "Passwords do not match",
-				error: "Passwords do not match",
-			});
+			setStatus(errorMessage);
 			openModal({
+				...modal,
 				title: "Error",
+				content: errorMessage,
 			});
 		} else {
-			signup(username, password);
-			setLogin(true);
+			signup(username, password)
+				.then((userCredential) => {
+					console.log("USER CREDENTIALS", userCredential);
+					addNewUser(userCredential.user.uid, userCredential.user.email);
+				})
+				.catch((err) => {
+					setStatus(err.message);
+					openModal({
+						...modal,
+						title: "Error singing up",
+						content: err.message,
+					});
+				});
 		}
 	};
 
@@ -58,12 +62,12 @@ const RegisterForm = () => {
 		setIsOpen(false);
 	};
 
-	return login ? (
+	return currentUser ? (
 		<Navigate to={"/"} />
 	) : (
 		<>
 			<Modal modal={modal} closeModal={closeModal} isOpen={isOpen}>
-				{status.error}
+				{status}
 			</Modal>
 
 			<div>
@@ -107,6 +111,8 @@ const RegisterForm = () => {
 							name={"password"}
 							onChange={handleChange}
 							required
+							minLength={7}
+							autoComplete={"off"}
 						/>
 					</div>
 					<div className={"my-3"}>
@@ -122,6 +128,7 @@ const RegisterForm = () => {
 							name={"confirmPassword"}
 							onChange={handleChange}
 							required
+							minLength={7}
 						/>
 					</div>
 					<div className={"flex justify-end mt-6"}>
@@ -136,14 +143,6 @@ const RegisterForm = () => {
 					</div>
 				</form>
 			</div>
-			{/* <div
-				className={
-					"login-wrapper text-white rounded-2xl px-8 py-6 mt-6 " +
-					(status.type !== "" ? "bg-" + status.type : "")
-				}
-			>
-				{status.error}
-			</div> */}
 		</>
 	);
 };

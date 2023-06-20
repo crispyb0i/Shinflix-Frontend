@@ -5,17 +5,11 @@ import { AuthContext } from "../../../contexts/AuthContext";
 
 const LoginForm = () => {
 	const { login, currentUser } = useContext(AuthContext);
-	// const [login, setLogin] = useState(false);
 	const [inputs, setInputs] = useState({
 		username: "",
 		password: "",
 	});
-	const [status, setStatus] = useState({
-		type: "",
-		message: "",
-		error: "",
-	});
-
+	const [status, setStatus] = useState("");
 	const [isOpen, setIsOpen] = useState(false);
 	const [modal, setModal] = useState({
 		title: "",
@@ -33,7 +27,14 @@ const LoginForm = () => {
 	const handleSubmit = (event) => {
 		event.preventDefault();
 		const { email, password } = inputs;
-		login(email, password);
+		login(email, password).catch((err) => {
+			setStatus(err.message);
+			openModal({
+				...modal,
+				title: "Error logging in",
+				content: err.status,
+			});
+		});
 	};
 
 	const openModal = (modal) => {
@@ -45,12 +46,14 @@ const LoginForm = () => {
 		setIsOpen(false);
 	};
 
+	// console.log(status);
+
 	return currentUser ? (
 		<Navigate to={"/"} />
 	) : (
 		<>
 			<Modal modal={modal} closeModal={closeModal} isOpen={isOpen}>
-				{status.error}
+				{status}
 			</Modal>
 
 			<div>
@@ -93,6 +96,8 @@ const LoginForm = () => {
 							placeholder={"Password"}
 							name={"password"}
 							onChange={handleChange}
+							required
+							minLength={7}
 						/>
 					</div>
 					<div className={"flex justify-end mt-6"}>
@@ -108,14 +113,6 @@ const LoginForm = () => {
 				</form>
 				<div className="flex w-full justify-center text-blue-600 mt-6">
 					<Link to="/forgot-password">Forgot Password?</Link>
-				</div>
-				<div
-					className={
-						"login-wrapper text-white rounded-2xl px-8 py-6 mt-6 " +
-						(status.type !== "" ? "bg-" + status.type : "")
-					}
-				>
-					{status.error.message}
 				</div>
 			</div>
 		</>

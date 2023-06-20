@@ -10,7 +10,8 @@ import {
 	updatePassword,
 	updateProfile,
 } from "@firebase/auth";
-import { addNewUser } from "../services/firebase/firestore";
+import { addNewUserToFirestore } from "../services/firebase/firestore";
+// import { collection, where, query } from "firebase/firestore";
 
 export const AuthContext = createContext();
 
@@ -18,15 +19,10 @@ export const AuthProvider = ({ children }) => {
 	const [currentUser, setCurrentUser] = useState(null);
 	const [loading, setLoading] = useState(true);
 
+	const addNewUser = (uid, email) => addNewUserToFirestore(uid, email);
+
 	const signup = (email, password) => {
-		return createUserWithEmailAndPassword(auth, email, password)
-			.then((userCredential) => {
-				console.log("user cred", userCredential);
-				addNewUser(userCredential.user.uid, userCredential.user.email);
-			})
-			.catch((err) => {
-				console.error(err);
-			});
+		return createUserWithEmailAndPassword(auth, email, password);
 	};
 
 	const login = (email, password) => {
@@ -102,6 +98,7 @@ export const AuthProvider = ({ children }) => {
 	}, []);
 
 	const value = {
+		addNewUser,
 		currentUser,
 		deleteUserProfilePicture,
 		signup,

@@ -172,6 +172,21 @@ export default function Navbar() {
 													)}
 												</Menu.Item>
 											)}
+											{!currentUser && (
+												<Menu.Item>
+													{({ active }) => (
+														<a
+															href="/register"
+															className={classNames(
+																active ? "bg-gray-100" : "",
+																"block px-4 py-2 text-sm text-gray-700"
+															)}
+														>
+															Register
+														</a>
+													)}
+												</Menu.Item>
+											)}
 										</Menu.Items>
 									</Transition>
 								</Menu>

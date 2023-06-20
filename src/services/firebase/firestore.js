@@ -5,6 +5,8 @@ import {
 	getDoc,
 	addDoc,
 	setDoc,
+	where,
+	query,
 } from "firebase/firestore";
 import { db } from "./firebase";
 
@@ -32,8 +34,8 @@ export const addToUserFavorites = async (user_id, movie) => {
 	}
 };
 
-export const addNewUser = async (uid, email) => {
-	await setDoc(doc(db, "users", uid), {
+export const addNewUserToFirestore = async (uid, email) => {
+	return await setDoc(doc(db, "users", uid), {
 		email: email,
 		displayName: uid,
 		favorites: {},
@@ -45,6 +47,12 @@ export const addNewUser = async (uid, email) => {
 export const updateUserDocument = async (user_id, data) => {
 	const userDocRef = doc(db, "users", user_id);
 	await updateDoc(userDocRef, data);
+};
+
+export const findUserByID = async (user_id) => {
+	const usersRef = collection(db, "users");
+	const q = query(usersRef, where("users", "==", user_id));
+	console.log(q);
 };
 
 export const getUserDocument = async (user_id) => {
