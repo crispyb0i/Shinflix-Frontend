@@ -10,6 +10,7 @@ import {
 	updatePassword,
 	updateProfile,
 } from "@firebase/auth";
+import { addNewUser } from "../services/firebase/firestore";
 
 export const AuthContext = createContext();
 
@@ -18,7 +19,14 @@ export const AuthProvider = ({ children }) => {
 	const [loading, setLoading] = useState(true);
 
 	const signup = (email, password) => {
-		return createUserWithEmailAndPassword(auth, email, password);
+		return createUserWithEmailAndPassword(auth, email, password)
+			.then((userCredential) => {
+				console.log("user cred", userCredential);
+				addNewUser(userCredential.user.uid, userCredential.user.email);
+			})
+			.catch((err) => {
+				console.error(err);
+			});
 	};
 
 	const login = (email, password) => {

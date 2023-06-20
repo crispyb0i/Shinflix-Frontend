@@ -7,8 +7,8 @@ import { LoadingSpinner } from "../../common";
 
 export const Home = () => {
 	const [searchQuery, setSearchQuery] = useState("");
-	const [searchResults, setSearchResults] = useState(null);
-	const [trending, setTrending] = useState([]);
+	const [searchResults, setSearchResults] = useState([]);
+	const [trending, setTrending] = useState(null);
 	const [loading, setLoading] = useState(false);
 
 	useEffect(() => {
@@ -16,8 +16,9 @@ export const Home = () => {
 			setLoading(true);
 			try {
 				const response = await fetchTrendingAllByDay();
-				setTrending(response);
+				setTrending(response.results);
 				setLoading(false);
+				console.log(response);
 			} catch (error) {
 				console.error(error);
 			} finally {
@@ -73,39 +74,71 @@ export const Home = () => {
 					</div>
 				</form>
 			</div>
-			{/* <div>
-				<h1>{JSON.stringify(trending)}</h1>
-			</div> */}
-			{loading ? (
-				<LoadingSpinner />
-			) : (
-				searchResults && (
-					<div className="flex flex-wrap justify-center mx-20">
-						{searchResults.map(
-							({
-								media_type,
-								id,
-								title,
-								poster_path,
-								release_date,
-								name,
-								profile_path,
-							}) => (
-								<Link to={`/${media_type}/${id}`} key={id}>
-									<MediaCard
-										title={title}
-										media_type={media_type}
-										poster_path={poster_path}
-										release_date={release_date}
-										name={name}
-										profile_path={profile_path}
-									/>
-								</Link>
-							)
-						)}
-					</div>
-				)
-			)}
+			<div>
+				{loading ? (
+					<LoadingSpinner />
+				) : (
+					trending && (
+						<div className="flex flex-col mx-20 justify-center items-center overflow-scroll">
+							<h1 className="text-4xl">Trending</h1>
+							<div className="flex flex-row">
+								{trending.map(
+									({
+										media_type,
+										id,
+										title,
+										poster_path,
+										release_date,
+										name,
+										profile_path,
+									}) => (
+										<Link to={`/${media_type}/${id}`} key={id}>
+											<MediaCard
+												title={title}
+												media_type={media_type}
+												poster_path={poster_path}
+												release_date={release_date}
+												name={name}
+												profile_path={profile_path}
+											/>
+										</Link>
+									)
+								)}
+							</div>
+						</div>
+					)
+				)}
+				{loading ? (
+					<LoadingSpinner />
+				) : (
+					searchResults && (
+						<div className="flex flex-row flex-wrap justify-center mx-20">
+							{searchResults.map(
+								({
+									media_type,
+									id,
+									title,
+									poster_path,
+									release_date,
+									name,
+									profile_path,
+								}) => (
+									<Link to={`/${media_type}/${id}`} key={id}>
+										<MediaCard
+											title={title}
+											media_type={media_type}
+											poster_path={poster_path}
+											release_date={release_date}
+											name={name}
+											profile_path={profile_path}
+										/>
+									</Link>
+								)
+							)}
+						</div>
+					)
+				)}
+			</div>
 		</div>
 	);
 };

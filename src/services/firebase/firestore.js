@@ -1,4 +1,11 @@
-import { collection, doc, updateDoc, getDoc, addDoc } from "firebase/firestore";
+import {
+	collection,
+	doc,
+	updateDoc,
+	getDoc,
+	addDoc,
+	setDoc,
+} from "firebase/firestore";
 import { db } from "./firebase";
 
 export const addToUserFavorites = async (user_id, movie) => {
@@ -23,6 +30,16 @@ export const addToUserFavorites = async (user_id, movie) => {
 			});
 		}
 	}
+};
+
+export const addNewUser = async (uid, email) => {
+	await setDoc(doc(db, "users", uid), {
+		email: email,
+		displayName: uid,
+		favorites: {},
+		photoURL: null,
+		uid,
+	});
 };
 
 export const updateUserDocument = async (user_id, data) => {

@@ -18,7 +18,7 @@ export const ProfilePage = () => {
 												? `${currentUser.photoURL}`
 												: `https://demos.creative-tim.com/notus-js/assets/img/team-2-800x800.jpg`
 										}
-										className="object-cover shadow-2xl rounded-full w-48 h-48 items-center border-none max-w-150-px"
+										className="border-black object-cover shadow-2xl rounded-full w-48 h-48 items-center border-none max-w-150-px"
 									/>
 								</div>
 								<div className="w-full lg:w-4/12 px-4 lg:order-3 lg:text-right lg:self-center">
