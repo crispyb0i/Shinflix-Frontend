@@ -178,20 +178,24 @@ export const TvPage = () => {
 					)}
 					{tvImages && (
 						<div className="flex flex-col justify-center items-center bg-black-800">
-							<h1 className="text-3xl m-auto my-10 font-bold">Backdrops</h1>
-							<div className="flex flex-row flex-wrap justify-center">
-								{tvImages.backdrops.map((image) => (
-									<Link
-										to={`${process.env.REACT_APP_TMDB_IMAGE_URL}${image.file_path}`}
-									>
-										<img
-											className="w-96"
-											src={`${process.env.REACT_APP_TMDB_IMAGE_URL}${image.file_path}`}
-											alt="backdrop"
-										/>
-									</Link>
-								))}
-							</div>
+							{tvImages.backdrops.length > 0 && (
+								<>
+									<h1 className="text-3xl m-auto my-10 font-bold">Backdrops</h1>
+									<div className="flex flex-row flex-wrap justify-center">
+										{tvImages.backdrops.map((image) => (
+											<Link
+												to={`${process.env.REACT_APP_TMDB_IMAGE_URL}${image.file_path}`}
+											>
+												<img
+													className="w-96"
+													src={`${process.env.REACT_APP_TMDB_IMAGE_URL}${image.file_path}`}
+													alt="backdrop"
+												/>
+											</Link>
+										))}
+									</div>
+								</>
+							)}
 							<div className="flex flex-col justify-center items-center">
 								<h1 className="text-3xl m-auto my-10 font-bold">Posters</h1>
 								<div className="flex flex-row flex-wrap justify-center">
