@@ -3,6 +3,7 @@ import { uploadFile } from "../../../services/firebase/storage";
 import { PhotoIcon, UserCircleIcon } from "@heroicons/react/24/solid";
 import { AuthContext } from "../../../contexts/AuthContext";
 import { updateUserDocument } from "../../../services/firebase/firestore";
+import { Modal } from "../../common";
 
 export const UpdateProfile = () => {
 	const {
@@ -15,6 +16,23 @@ export const UpdateProfile = () => {
 		username: "",
 		about: "",
 	});
+
+	const [modal, setModal] = useState({
+		title: "",
+		content: "",
+		buttons: ["Submit"],
+	});
+
+	const [isOpen, setIsOpen] = useState(false);
+
+	const openModal = (modal) => {
+		setModal(modal);
+		setIsOpen(true);
+	};
+
+	const closeModal = () => {
+		setIsOpen(false);
+	};
 
 	const handleChange = (event) => {
 		setInputs({
@@ -38,140 +56,162 @@ export const UpdateProfile = () => {
 	const deleteProfilePicture = async () => {
 		try {
 			await deleteUserProfilePicture(currentUser.photoURL);
+			openModal({
+				...modal,
+				title: "Success!",
+				content: "Deleted profile picture",
+			});
 		} catch (err) {
-			console.log(err);
+			openModal({
+				...modal,
+				title: "Error",
+				content: err,
+			});
 		}
 	};
 
-	const handleUsernameUpdate = async () => {
+	const handleUsernameUpdate = async (e) => {
+		e.preventDefault();
 		try {
 			await updateUserDisplayName(inputs.username);
 			await updateUserDocument(currentUser.uid, {
 				displayName: inputs.username,
 			});
-			console.log("SUCCESS");
+			openModal({
+				title: "Success!",
+				content: "Username changed",
+			});
 		} catch (error) {
+			openModal({
+				title: "Error",
+				content: error,
+			});
 			console.error("Error setting username: ", error);
 		}
 	};
 
 	return (
-		<div className="px-15 py-20 flex items-center justify-center">
-			<form>
-				<div className="space-y-12">
-					<div className="border-b border-gray-900/10 pb-12">
-						<h2 className="text-base font-semibold leading-7 text-gray-900">
-							Profile
-						</h2>
-						<p className="mt-1 text-sm leading-6 text-gray-600">
-							This information will be displayed publicly so be careful what you
-							share.
-						</p>
+		<>
+			<Modal modal={modal} closeModal={closeModal} isOpen={isOpen}>
+				{modal.content}
+			</Modal>
 
-						<div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-							<div className="sm:col-span-4">
-								<label
-									htmlFor="username"
-									className="block text-sm font-medium leading-6 text-gray-900"
-								>
-									Username
-								</label>
-								<div className="flex mt-2">
-									<div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-										<span className="flex select-none items-center pl-3 text-gray-500 sm:text-sm">
-											shinflix.com/user/
-										</span>
+			<div className="px-15 py-20 flex items-center justify-center">
+				<form>
+					<div className="space-y-12">
+						<div className="border-b border-gray-900/10 pb-12">
+							<h2 className="text-base font-semibold leading-7 text-gray-900">
+								Profile
+							</h2>
+							<p className="mt-1 text-sm leading-6 text-gray-600">
+								This information will be displayed publicly so be careful what
+								you share.
+							</p>
 
-										<input
-											type="text"
-											name="username"
-											id="username"
-											autoComplete="username"
-											className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-											placeholder="janesmith"
-											onChange={handleChange}
-											defaultValue={currentUser.displayName || undefined}
-										/>
-									</div>
-									<button
-										type="button"
-										className="rounded-md bg-white ml-5 px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
-										onClick={handleUsernameUpdate}
+							<div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+								<div className="sm:col-span-4">
+									<label
+										htmlFor="username"
+										className="block text-sm font-medium leading-6 text-gray-900"
 									>
-										Change
-									</button>
-								</div>
-							</div>
+										Username
+									</label>
+									<div className="flex mt-2">
+										<div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+											<span className="flex select-none items-center pl-3 text-gray-500 sm:text-sm">
+												shinflix.com/user/
+											</span>
 
-							<div className="col-span-full">
-								<label
-									htmlFor="about"
-									className="block text-sm font-medium leading-6 text-gray-900"
-								>
-									About
-								</label>
-								<div className="mt-2">
-									<textarea
-										id="about"
-										name="about"
-										rows={3}
-										className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-										defaultValue={""}
-										onChange={handleChange}
-									/>
-								</div>
-								<p className="mt-3 text-sm leading-6 text-gray-600">
-									Write a few sentences about yourself.
-								</p>
-							</div>
-
-							<div className="col-span-full mb-2">
-								<label
-									htmlFor="photo"
-									className="block text-sm font-medium leading-6 text-gray-900"
-								>
-									Photo
-								</label>
-								<div className="mt-2 flex items-center gap-x-3">
-									{currentUser.photoURL ? (
-										<div className="w-48 h-48 overflow-hidden rounded-full">
-											<img
-												src={currentUser.photoURL}
-												className={"object-cover w-full h-full"}
+											<input
+												type="text"
+												name="username"
+												id="username"
+												autoComplete="username"
+												className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+												placeholder="janesmith"
+												onChange={handleChange}
+												defaultValue={currentUser.displayName || undefined}
 											/>
 										</div>
-									) : (
-										<UserCircleIcon
-											className="h-48 w-48 text-gray-300"
-											aria-hidden="true"
-										/>
-									)}
+										<button
+											type="button"
+											className="rounded-md bg-white ml-5 px-2.5 py-1.5 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50"
+											onClick={handleUsernameUpdate}
+										>
+											Change
+										</button>
+									</div>
 								</div>
-							</div>
-							<label
-								htmlFor="file-upload"
-								className="relative flex justify-center items-center mr-2 cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
-							>
-								<span>Upload a file</span>
-								<input
-									id="file-upload"
-									name="file-upload"
-									type="file"
-									className="sr-only"
-									onChange={handleProfilePictureUpdate}
-								/>
-							</label>
-							{currentUser.photoURL && (
-								<button
-									type="button"
-									className="rounded-md bg-red-500 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-red-300"
-									onClick={deleteProfilePicture}
-								>
-									Delete
-								</button>
-							)}
 
-							<div className="col-span-full">
+								{/* <div className="col-span-full">
+									<label
+										htmlFor="about"
+										className="block text-sm font-medium leading-6 text-gray-900"
+									>
+										About
+									</label>
+									<div className="mt-2">
+										<textarea
+											id="about"
+											name="about"
+											rows={3}
+											className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+											defaultValue={""}
+											onChange={handleChange}
+										/>
+									</div>
+									<p className="mt-3 text-sm leading-6 text-gray-600">
+										Write a few sentences about yourself.
+									</p>
+								</div> */}
+
+								<div className="col-span-full mb-2">
+									<label
+										htmlFor="photo"
+										className="block text-sm font-medium leading-6 text-gray-900"
+									>
+										Photo
+									</label>
+									<div className="mt-2 flex items-center gap-x-3">
+										{currentUser.photoURL ? (
+											<div className="w-48 h-48 overflow-hidden rounded-full">
+												<img
+													src={currentUser.photoURL}
+													className={"object-cover w-full h-full"}
+												/>
+											</div>
+										) : (
+											<UserCircleIcon
+												className="h-48 w-48 text-gray-300"
+												aria-hidden="true"
+											/>
+										)}
+									</div>
+								</div>
+								<label
+									htmlFor="file-upload"
+									className="relative flex justify-center items-center mr-2 cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500"
+								>
+									<span>Upload a file</span>
+									<input
+										id="file-upload"
+										name="file-upload"
+										type="file"
+										className="sr-only"
+										onChange={handleProfilePictureUpdate}
+									/>
+								</label>
+								{currentUser.photoURL && (
+									<button
+										type="button"
+										className="rounded-md bg-red-500 px-2.5 py-1.5 text-sm font-semibold text-white shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-red-300"
+										onClick={deleteProfilePicture}
+									>
+										Delete
+									</button>
+								)}
+
+								{/* <div className="col-span-full">
 								<label
 									htmlFor="cover-photo"
 									className="block text-sm font-medium leading-6 text-gray-900"
@@ -205,11 +245,11 @@ export const UpdateProfile = () => {
 										</p>
 									</div>
 								</div>
+							</div> */}
 							</div>
 						</div>
-					</div>
 
-					{/* <div className="border-b border-gray-900/10 pb-12">
+						{/* <div className="border-b border-gray-900/10 pb-12">
 						<h2 className="text-base font-semibold leading-7 text-gray-900">
 							Personal Information
 						</h2>
@@ -502,23 +542,24 @@ export const UpdateProfile = () => {
 							</fieldset>
 						</div>
 					</div> */}
-				</div>
+					</div>
 
-				<div className="mt-6 flex items-center justify-end gap-x-6">
-					<button
-						type="button"
-						className="text-sm font-semibold leading-6 text-gray-900"
-					>
-						Cancel
-					</button>
-					<button
-						type="submit"
-						className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-					>
-						Save
-					</button>
-				</div>
-			</form>
-		</div>
+					{/* <div className="mt-6 flex items-center justify-end gap-x-6">
+						<button
+							type="button"
+							className="text-sm font-semibold leading-6 text-gray-900"
+						>
+							Cancel
+						</button>
+						<button
+							type="submit"
+							className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+						>
+							Save
+						</button>
+					</div> */}
+				</form>
+			</div>
+		</>
 	);
 };

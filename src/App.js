@@ -16,6 +16,7 @@ import {
 } from "./components/pages";
 import { SiteSettingsProvider, ThemeProvider, AuthProvider } from "./contexts";
 import Navbar from "./components/template/Navbar";
+import { TvPage } from "./components/pages/tv/TvPage";
 
 function App() {
 	return (
@@ -32,11 +33,12 @@ function App() {
 								<Route path={"/forgot-password"} element={<ForgotPassword />} />
 								<Route path={"/register"} element={<Register />} />
 								<Route path={"/person/:personid"} element={<PersonPage />} />
+								<Route path={"/movie/:movieid"} element={<MoviePage />} />
+								<Route path={"/tv/:tvid"} element={<TvPage />} />
 								<Route
 									path={"/user/profile/:userid"}
 									element={<ProfilePage />}
 								/>
-								<Route path={"/movie/:movieid"} element={<MoviePage />} />
 
 								<Route
 									path={"/settings/profile"}

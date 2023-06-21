@@ -26,19 +26,19 @@ const MediaCard = ({
 	}
 
 	return (
-		<div key={id} className={"w-40 p-5"}>
-			<div className={"w-100"}>
+		<div key={id} className={"w-36 h-88 mx-3 mb-4"} dir="ltr">
+			<div className={"w-full"}>
 				<img
 					src={image_url}
-					alt={`${title}`}
-					className={"rounded-lg"}
+					alt={`${title || name}`}
+					className={"w-full rounded-lg shadow-lg"}
 					onError={handleImageError}
 				/>
 			</div>
 
-			<div>
-				<h1>{title || name}</h1>
-				<p>{release_date}</p>
+			<div className="p-3">
+				<h1 className="font-bold">{title || name}</h1>
+				<p className="mt-1">{release_date}</p>
 			</div>
 		</div>
 	);

@@ -1,33 +1,28 @@
-import { useState, useEffect, useContext } from "react";
-import { useParams } from "react-router";
+import { useState, useEffect } from "react";
+import { Link, useParams } from "react-router-dom";
 import {
-	fetchMovieDetails,
-	fetchMovieCredits,
-	fetchMovieImages,
-} from "../../../api/tmdb/index";
+	fetchShowDetails,
+	fetchShowImages,
+	fetchShowCredits,
+} from "../../../api/tmdb";
 import { LoadingSpinner } from "../../common";
-import { addToUserFavorites } from "../../../services/firebase/firestore";
-import { AuthContext } from "../../../contexts/AuthContext";
-import { Link, useNavigate } from "react-router-dom";
 import MediaCard from "../../template/MediaCard";
 
-export const MoviePage = () => {
-	const { currentUser } = useContext(AuthContext);
-	const [movieData, setMovieData] = useState(null);
-	const [movieCredits, setMovieCredits] = useState(null);
-	const [movieImages, setMovieImages] = useState(null);
+export const TvPage = () => {
+	const showId = useParams().tvid;
 	const [loading, setLoading] = useState(false);
-	const movieId = useParams().movieid;
-	const navigate = useNavigate();
+	const [tvData, setTvData] = useState(null);
+	const [tvImages, setTvImages] = useState(null);
+	const [tvCredits, setTvCredits] = useState(null);
 	const {
 		adult,
 		backdrop_path,
-		belongs_to_collection,
-		budget,
+		first_air_date,
 		genres,
 		homepage,
 		id,
-		imdb_id,
+		name,
+		seasons,
 		original_language,
 		original_title,
 		overview,
@@ -45,18 +40,23 @@ export const MoviePage = () => {
 		video,
 		vote_average,
 		vote_count,
-	} = movieData || {};
+	} = tvData || {};
+
+	console.log(tvData);
+	const handleFavorite = () => {
+		console.log("CLICKED");
+	};
 
 	useEffect(() => {
 		const fetchMovieData = async () => {
 			setLoading(true);
 			try {
-				const movieDetailsResponse = await fetchMovieDetails(movieId);
-				setMovieData(movieDetailsResponse);
-				const creditsResponse = await fetchMovieCredits(movieId);
-				setMovieCredits(creditsResponse.cast);
-				const movieImages = await fetchMovieImages(movieId);
-				setMovieImages(movieImages);
+				const tvDetailResponse = await fetchShowDetails(showId);
+				setTvData(tvDetailResponse);
+				const creditsResponse = await fetchShowCredits(showId);
+				setTvCredits(creditsResponse.cast);
+				const showImages = await fetchShowImages(showId);
+				setTvImages(showImages);
 			} catch (error) {
 				console.error(error);
 			} finally {
@@ -65,18 +65,6 @@ export const MoviePage = () => {
 		};
 		fetchMovieData();
 	}, []);
-
-	const handleFavorite = async () => {
-		if (!currentUser) {
-			navigate("/login");
-			return;
-		}
-		try {
-			await addToUserFavorites(currentUser.uid, movieData);
-		} catch (error) {
-			console.error("ERROR adding to favorites ", error);
-		}
-	};
 
 	return (
 		<>
@@ -100,11 +88,11 @@ export const MoviePage = () => {
 						<div className={"flex p-20 justify-center"}>
 							<img
 								src={`${process.env.REACT_APP_TMDB_IMAGE_URL}${poster_path}`}
-								alt={`${title} backdrop`}
+								alt={`${name} backdrop`}
 								className={"flex-none w-72 h-108  rounded-lg"}
 							/>
 							<div className="text-white-700 hidden md:block ml-20">
-								<h1 className={"text-5xl font-bold"}>{title}</h1>
+								<h1 className={"text-5xl font-bold"}>{name}</h1>
 								{tagline && <p className={"py-3 mb-3"}>{tagline}</p>}
 								{genres && (
 									<div className={"mb-3 italic"}>
@@ -157,12 +145,12 @@ export const MoviePage = () => {
 						</div>
 					</div>
 					{/* CREDITS */}
-					{movieCredits && (
+					{tvCredits && (
 						<div>
 							<div className="flex flex-col m-auto bg-gray-200 items-center pt-10">
 								<h1 className="text-3xl mb-10 font-bold">Cast</h1>
 								<div className="flex flex-row overflow-x-auto w-full">
-									{movieCredits.map(({ id, title, profile_path, name }) => (
+									{tvCredits.map(({ id, title, profile_path, name }) => (
 										<Link to={`/person/${id}`} key={id}>
 											<MediaCard
 												title={title}
@@ -176,11 +164,30 @@ export const MoviePage = () => {
 							</div>
 						</div>
 					)}
-					{movieImages && (
+					{seasons && (
+						<div>
+							<div className="flex flex-col m-auto bg-gray-200 items-center pt-10">
+								<h1 className="text-3xl mb-10 font-bold">Seasons</h1>
+								<div className="flex flex-row overflow-x-auto w-full">
+									{seasons.map(({ name, poster_path, season_number }) => (
+										<Link to={`/tv/${id}/season/${season_number}`} key={id}>
+											<MediaCard
+												title={name}
+												media_type={"tv"}
+												poster_path={poster_path}
+												name={name}
+											/>
+										</Link>
+									))}
+								</div>
+							</div>
+						</div>
+					)}
+					{tvImages && (
 						<div className="flex flex-col justify-center items-center bg-black-800">
 							<h1 className="text-3xl m-auto my-10 font-bold">Backdrops</h1>
 							<div className="flex flex-row flex-wrap justify-center">
-								{movieImages.backdrops.map((image) => (
+								{tvImages.backdrops.map((image) => (
 									<Link
 										to={`${process.env.REACT_APP_TMDB_IMAGE_URL}${image.file_path}`}
 									>
@@ -195,7 +202,7 @@ export const MoviePage = () => {
 							<div className="flex flex-col justify-center items-center">
 								<h1 className="text-3xl m-auto my-10 font-bold">Posters</h1>
 								<div className="flex flex-row flex-wrap justify-center">
-									{movieImages.posters.map((image) => (
+									{tvImages.posters.map((image) => (
 										<Link
 											to={`${process.env.REACT_APP_TMDB_IMAGE_URL}${image.file_path}`}
 										>

@@ -5,6 +5,7 @@ import {
 	fetchMovieImages,
 } from "./movies";
 import { multiSearch } from "./multi";
+import { fetchShowCredits, fetchShowDetails, fetchShowImages } from "./shows";
 export {
 	fetchTrendingAllByDay,
 	fetchTrendingAllByWeek,
@@ -12,4 +13,7 @@ export {
 	fetchMovieDetails,
 	fetchMovieCredits,
 	fetchMovieImages,
+	fetchShowCredits,
+	fetchShowDetails,
+	fetchShowImages,
 };

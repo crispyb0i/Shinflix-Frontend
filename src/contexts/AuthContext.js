@@ -81,7 +81,6 @@ export const AuthProvider = ({ children }) => {
 		const endIndex = url_path.lastIndexOf("?alt=media");
 		const filename = url_path.substring(startIndex, endIndex);
 		const profilePictureRef = ref(storage, `profile-pictures/${filename}`);
-		console.log("AUTH CURRENT USER", auth.currentUser);
 		try {
 			await deleteObject(profilePictureRef);
 			console.log("Profile picture deleted");

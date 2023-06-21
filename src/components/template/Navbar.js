@@ -21,8 +21,6 @@ export default function Navbar() {
 
 	const { currentUser, currentUserData } = useContext(AuthContext);
 	const currentPage = useLocation().pathname;
-	console.log("curr user", currentUser);
-	console.log("curr user data", currentUserData);
 
 	useEffect(() => {
 		const updatedNav = navigation.map((item) => ({

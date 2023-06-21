@@ -46,8 +46,6 @@ const LoginForm = () => {
 		setIsOpen(false);
 	};
 
-	// console.log(status);
-
 	return currentUser ? (
 		<Navigate to={"/"} />
 	) : (

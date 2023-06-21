@@ -18,7 +18,6 @@ export const Home = () => {
 				const response = await fetchTrendingAllByDay();
 				setTrending(response.results);
 				setLoading(false);
-				console.log(response);
 			} catch (error) {
 				console.error(error);
 			} finally {
@@ -30,6 +29,7 @@ export const Home = () => {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
+		if (searchQuery.length <= 0) return;
 		setLoading(true);
 		try {
 			const response = await multiSearch(searchQuery, false);
