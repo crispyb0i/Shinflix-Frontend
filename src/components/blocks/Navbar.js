@@ -3,7 +3,7 @@ import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Fragment, useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { ShinflixLogo } from "../../../src/assets/images";
+import { ShinflixLogo } from "../../assets/images";
 import { UserCircleIcon } from "@heroicons/react/24/solid";
 import { useLocation } from "react-router-dom";
 
@@ -14,9 +14,9 @@ function classNames(...classes) {
 export default function Navbar() {
 	const [navigation, setNavigation] = useState([
 		{ name: "Home", href: "/", current: false },
-		{ name: "Movies", href: "/movies", current: false },
-		{ name: "Shows", href: "/shows", current: false },
-		{ name: "People", href: "/people", current: false },
+		{ name: "Search", href: "/search", current: false },
+		{ name: "Journal", href: "/journal", current: false },
+		{ name: "Discover", href: "/discover", current: false },
 	]);
 
 	const { currentUser, currentUserData } = useContext(AuthContext);

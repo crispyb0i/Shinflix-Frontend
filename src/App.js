@@ -15,7 +15,7 @@ import {
 	UpdateCredentials,
 } from "./components/pages";
 import { SiteSettingsProvider, ThemeProvider, AuthProvider } from "./contexts";
-import Navbar from "./components/template/Navbar";
+import Navbar from "./components/blocks/Navbar";
 import { TvPage } from "./components/pages/tv/TvPage";
 
 function App() {

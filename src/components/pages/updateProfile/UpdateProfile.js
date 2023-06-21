@@ -73,21 +73,32 @@ export const UpdateProfile = () => {
 	const handleUsernameUpdate = async (e) => {
 		e.preventDefault();
 		try {
-			await updateUserDisplayName(inputs.username);
 			await updateUserDocument(currentUser.uid, {
 				displayName: inputs.username,
 			});
-			openModal({
-				title: "Success!",
-				content: "Username changed",
-			});
+			try {
+				await updateUserDisplayName(inputs.username);
+				openModal({
+					title: "Success!",
+					content: "Username changed",
+				});
+			} catch (error) {
+				openModal({
+					title: "Error",
+					content: error.message,
+				});
+			}
 		} catch (error) {
 			openModal({
 				title: "Error",
-				content: error,
+				content: error.message,
 			});
 			console.error("Error setting username: ", error);
 		}
+	};
+
+	const handleSubmit = (e) => {
+		e.preventDefault();
 	};
 
 	return (
@@ -97,24 +108,28 @@ export const UpdateProfile = () => {
 			</Modal>
 
 			<div className="px-15 py-20 flex items-center justify-center">
-				<form>
+				<form onSubmit={handleSubmit}>
 					<div className="space-y-12">
 						<div className="border-b border-gray-900/10 pb-12">
 							<h2 className="text-base font-semibold leading-7 text-gray-900">
-								Profile
+								Email
+							</h2>
+							<p className="mt-1 text-sm leading-6 text-gray-600 mb-5">
+								{currentUser.email}
+							</p>
+							<h2 className="text-base font-semibold leading-7 text-gray-900">
+								Username
 							</h2>
 							<p className="mt-1 text-sm leading-6 text-gray-600">
-								This information will be displayed publicly so be careful what
-								you share.
+								{currentUser.displayName}
 							</p>
-
 							<div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
 								<div className="sm:col-span-4">
 									<label
 										htmlFor="username"
 										className="block text-sm font-medium leading-6 text-gray-900"
 									>
-										Username
+										Update username
 									</label>
 									<div className="flex mt-2">
 										<div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">

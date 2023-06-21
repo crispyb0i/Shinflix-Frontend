@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { ShinflixLogo } from "../../../../src/assets/images";
 import { multiSearch, fetchTrendingAllByDay } from "../../../api/tmdb/index";
-import MediaCard from "../../template/MediaCard";
+import MediaCard from "../../blocks/MediaCard";
 import { Link } from "react-router-dom";
 import { LoadingSpinner } from "../../common";
 
@@ -79,8 +79,8 @@ export const Home = () => {
 				) : (
 					<div className="w-full">
 						{trending && !searchResults && (
-							<div className="flex flex-col m-auto bg-gray-200 items-center pt-10">
-								<h1 className="text-5xl mb-10">Trending</h1>
+							<div className="flex flex-col m-auto pt-10 px-5">
+								<h1 className="text-3xl mb-10 text-left">Trending</h1>
 								<div className="flex flex-row overflow-x-auto w-full">
 									{trending.map(
 										({
@@ -100,6 +100,7 @@ export const Home = () => {
 													release_date={release_date}
 													name={name}
 													profile_path={profile_path}
+													key={id}
 												/>
 											</Link>
 										)

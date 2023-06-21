@@ -6,13 +6,11 @@ import {
 	fetchMovieImages,
 } from "../../../api/tmdb/index";
 import { LoadingSpinner } from "../../common";
-import { addToUserFavorites } from "../../../services/firebase/firestore";
-import { AuthContext } from "../../../contexts/AuthContext";
 import { Link, useNavigate } from "react-router-dom";
-import MediaCard from "../../template/MediaCard";
+import MediaCard from "../../blocks/MediaCard";
+import { MediaButtons } from "../../blocks/MediaButtons";
 
 export const MoviePage = () => {
-	const { currentUser } = useContext(AuthContext);
 	const [movieData, setMovieData] = useState(null);
 	const [movieCredits, setMovieCredits] = useState(null);
 	const [movieImages, setMovieImages] = useState(null);
@@ -66,18 +64,6 @@ export const MoviePage = () => {
 		fetchMovieData();
 	}, []);
 
-	const handleFavorite = async () => {
-		if (!currentUser) {
-			navigate("/login");
-			return;
-		}
-		try {
-			await addToUserFavorites(currentUser.uid, movieData);
-		} catch (error) {
-			console.error("ERROR adding to favorites ", error);
-		}
-	};
-
 	return (
 		<>
 			{loading ? (
@@ -86,7 +72,7 @@ export const MoviePage = () => {
 				</div>
 			) : (
 				<div>
-					<div className={"relative h-128  border-b-2 border-#726a5c"}>
+					<div className={"relative h-128 border-b-2 border-#726a5c"}>
 						<div
 							className="absolute inset-0 bg-cover bg-center from-pink-500 hover:to-yellow-500"
 							style={{
@@ -123,43 +109,36 @@ export const MoviePage = () => {
 								)}
 
 								<p>{overview}</p>
-								<div className="flex flex-row mt-10">
-									{/* Favorite */}
-									<button onClick={handleFavorite} className={""}>
-										{true ? (
-											<svg
-												xmlns="http://www.w3.org/2000/svg"
-												fill="none"
-												viewBox="0 0 24 24"
-												strokeWidth={1.5}
-												stroke="currentColor"
-												className="w-8 h-8"
-											>
-												<path
-													strokeLinecap="round"
-													strokeLinejoin="round"
-													d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
-												/>
-											</svg>
-										) : (
-											<svg
-												xmlns="http://www.w3.org/2000/svg"
-												viewBox="0 0 24 24"
-												fill="currentColor"
-												className="w-8 h-8"
-											>
-												<path d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z" />
-											</svg>
-										)}
-									</button>
-								</div>
+								<MediaButtons mediaData={movieData} />
 							</div>
 						</div>
+					</div>
+					<div className="text-black-700 block md:hidden ml-20 my-20">
+						<h1 className={"text-5xl font-bold"}>{title}</h1>
+						{tagline && <p className={"py-3 mb-3"}>{tagline}</p>}
+						{genres && (
+							<div className={"mb-3 italic"}>
+								{genres.map((genre) => (
+									<span key={genre.id}>{genre.name} </span>
+								))}
+							</div>
+						)}
+						<h4 className="text-xl font-bold">Release Date</h4>
+
+						{release_date && (
+							<>
+								<p className="mb-3">{release_date}</p>
+								<h4 className="text-xl font-bold">Overview</h4>
+							</>
+						)}
+
+						<p>{overview}</p>
+						<MediaButtons />
 					</div>
 					{/* CREDITS */}
 					{movieCredits && (
 						<div>
-							<div className="flex flex-col m-auto bg-gray-200 items-center pt-10">
+							<div className="flex flex-col m-auto pt-10 px-5">
 								<h1 className="text-3xl mb-10 font-bold">Cast</h1>
 								<div className="flex flex-row overflow-x-auto w-full">
 									{movieCredits.map(({ id, title, profile_path, name }) => (

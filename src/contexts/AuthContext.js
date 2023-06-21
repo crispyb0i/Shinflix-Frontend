@@ -22,6 +22,7 @@ export const AuthProvider = ({ children }) => {
 	const [currentUser, setCurrentUser] = useState(null);
 	const [currentUserData, setCurrentUserData] = useState(null);
 	const [loading, setLoading] = useState(true);
+	console.log("currentUserData", currentUserData);
 
 	const addNewUser = (uid, email) => addNewUserToFirestore(uid, email);
 
@@ -95,7 +96,7 @@ export const AuthProvider = ({ children }) => {
 	useEffect(() => {
 		const unsubscribe = auth.onAuthStateChanged((user) => {
 			setCurrentUser(user);
-			const userData = user
+			user
 				? findUserByID(user.uid).then((user) => {
 						setCurrentUserData(user);
 				  })
