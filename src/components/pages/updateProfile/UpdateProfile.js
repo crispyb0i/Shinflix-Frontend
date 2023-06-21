@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import { uploadFile } from "../../../services/firebase/storage";
 import { PhotoIcon, UserCircleIcon } from "@heroicons/react/24/solid";
 import { AuthContext } from "../../../contexts/AuthContext";
+import { updateUserDocument } from "../../../services/firebase/firestore";
 
 export const UpdateProfile = () => {
 	const {
@@ -44,7 +45,10 @@ export const UpdateProfile = () => {
 
 	const handleUsernameUpdate = async () => {
 		try {
-			updateUserDisplayName(inputs.username);
+			await updateUserDisplayName(inputs.username);
+			await updateUserDocument(currentUser.uid, {
+				displayName: inputs.username,
+			});
 			console.log("SUCCESS");
 		} catch (error) {
 			console.error("Error setting username: ", error);

@@ -7,6 +7,7 @@ import {
 	Logout,
 	ForgotPassword,
 	NotFound,
+	PersonPage,
 	ProfilePage,
 	Register,
 	MoviePage,
@@ -30,6 +31,7 @@ function App() {
 								<Route path={"/logout"} element={<Logout />} />
 								<Route path={"/forgot-password"} element={<ForgotPassword />} />
 								<Route path={"/register"} element={<Register />} />
+								<Route path={"/person/:personid"} element={<PersonPage />} />
 								<Route
 									path={"/user/profile/:userid"}
 									element={<ProfilePage />}

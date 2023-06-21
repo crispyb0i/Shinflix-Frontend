@@ -7,7 +7,7 @@ import { LoadingSpinner } from "../../common";
 
 export const Home = () => {
 	const [searchQuery, setSearchQuery] = useState("");
-	const [searchResults, setSearchResults] = useState([]);
+	const [searchResults, setSearchResults] = useState(null);
 	const [trending, setTrending] = useState(null);
 	const [loading, setLoading] = useState(false);
 
@@ -34,7 +34,6 @@ export const Home = () => {
 		try {
 			const response = await multiSearch(searchQuery, false);
 			const results = response && response.results; // Check if response is defined before accessing the results property
-			console.log("TEST", results);
 			setSearchResults(results);
 			setLoading(false);
 		} catch (error) {
@@ -49,15 +48,15 @@ export const Home = () => {
 	};
 
 	return (
-		<div className="flex flex-col flex-grow py-10 items-center justify-center dark:bg-gray-800 dark:text-white">
+		<div className="flex flex-col flex-grow p-10 items-center justify-center w-full">
 			<img src={ShinflixLogo} className={"sm:h-24 h-20 mb-4"} alt="logo" />
-			<div className="my-3 w-1/2">
+			<div className="my-2 w-full p-12 max-w-4xl">
 				<form onSubmit={handleSubmit} className={"mb-10"}>
 					<div className="flex items-center py-2">
 						<input
 							type="text"
-							className="p-2 sm:h-14 h-10 w-full border-2 focus:border-primary hover:border-gray-400 outline-none dark:bg-gray-700 rounded-l-lg text-lg"
-							placeholder="Search for a movie, TV show, or person"
+							className="p-2 sm:h-14 h-10 w-full border-2 focus:border-primary hover:border-gray-400 outline-none rounded-l-lg text-lg"
+							placeholder="Search media"
 							name="search"
 							autoComplete="off"
 							value={searchQuery}
@@ -74,69 +73,78 @@ export const Home = () => {
 					</div>
 				</form>
 			</div>
-			<div>
+			<div className="w-screen">
 				{loading ? (
 					<LoadingSpinner />
 				) : (
-					trending && (
-						<div className="flex flex-col mx-20 justify-center items-center overflow-scroll">
-							<h1 className="text-4xl">Trending</h1>
-							<div className="flex flex-row">
-								{trending.map(
-									({
-										media_type,
-										id,
-										title,
-										poster_path,
-										release_date,
-										name,
-										profile_path,
-									}) => (
-										<Link to={`/${media_type}/${id}`} key={id}>
-											<MediaCard
-												title={title}
-												media_type={media_type}
-												poster_path={poster_path}
-												release_date={release_date}
-												name={name}
-												profile_path={profile_path}
-											/>
-										</Link>
-									)
-								)}
+					<div className="w-full">
+						{trending && !searchResults && (
+							<div className="flex flex-col m-auto bg-gray-200 items-center pt-10">
+								<h1 className="text-5xl mb-10">Trending</h1>
+								<div className="flex flex-row overflow-x-auto w-full">
+									{trending.map(
+										({
+											media_type,
+											id,
+											title,
+											poster_path,
+											release_date,
+											name,
+											profile_path,
+										}) => (
+											<Link to={`/${media_type}/${id}`} key={id}>
+												<MediaCard
+													title={title}
+													media_type={media_type}
+													poster_path={poster_path}
+													release_date={release_date}
+													name={name}
+													profile_path={profile_path}
+												/>
+											</Link>
+										)
+									)}
+								</div>
 							</div>
-						</div>
-					)
-				)}
-				{loading ? (
-					<LoadingSpinner />
-				) : (
-					searchResults && (
-						<div className="flex flex-row flex-wrap justify-center mx-20">
-							{searchResults.map(
-								({
-									media_type,
-									id,
-									title,
-									poster_path,
-									release_date,
-									name,
-									profile_path,
-								}) => (
-									<Link to={`/${media_type}/${id}`} key={id}>
-										<MediaCard
-											title={title}
-											media_type={media_type}
-											poster_path={poster_path}
-											release_date={release_date}
-											name={name}
-											profile_path={profile_path}
-										/>
-									</Link>
-								)
-							)}
-						</div>
-					)
+						)}
+						{searchResults && (
+							<>
+								<div className="mb-10">
+									{searchResults.length ? (
+										<h1 className="text-center text-xl font-bold">
+											Showing search results for "{searchQuery}"
+										</h1>
+									) : (
+										<p className="font-bold text-center">No results found</p>
+									)}
+								</div>
+								<div className="flex flex-row flex-wrap justify-center mx-auto max-w-5xl">
+									{searchResults.map(
+										({
+											media_type,
+											id,
+											title,
+											poster_path,
+											release_date,
+											name,
+											profile_path,
+										}) => (
+											<Link to={`/${media_type}/${id}`} key={id}>
+												<MediaCard
+													title={title}
+													media_type={media_type}
+													poster_path={poster_path}
+													release_date={release_date}
+													name={name}
+													profile_path={profile_path}
+												/>
+											</Link>
+										)
+									)}
+								</div>
+							</>
+						)}
+					</div>
 				)}
 			</div>
 		</div>

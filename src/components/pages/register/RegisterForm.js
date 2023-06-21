@@ -4,7 +4,8 @@ import { Modal } from "../../common";
 import { AuthContext } from "../../../contexts/AuthContext";
 
 const RegisterForm = () => {
-	const { addNewUser, currentUser, signup } = useContext(AuthContext);
+	const { addNewUser, currentUser, signup, updateUserDisplayName } =
+		useContext(AuthContext);
 	const [inputs, setInputs] = useState({
 		username: "",
 		password: "",
@@ -39,8 +40,8 @@ const RegisterForm = () => {
 		} else {
 			signup(username, password)
 				.then((userCredential) => {
-					console.log("USER CREDENTIALS", userCredential);
 					addNewUser(userCredential.user.uid, userCredential.user.email);
+					updateUserDisplayName(userCredential.user.uid);
 				})
 				.catch((err) => {
 					setStatus(err.message);
@@ -92,7 +93,7 @@ const RegisterForm = () => {
 						<input
 							type="text"
 							className={
-								"p-2 rounded-lg w-full border-2 focus:border-primary hover:border-gray-400 outline-none dark:bg-gray-700"
+								"p-2 rounded-lg w-full border-2 focus:border-primary hover:border-gray-400 outline-none"
 							}
 							placeholder={"Email"}
 							name={"username"}
@@ -105,7 +106,7 @@ const RegisterForm = () => {
 						<input
 							type="password"
 							className={
-								"p-2 rounded-lg w-full border-2 focus:border-primary hover:border-gray-400 outline-none dark:bg-gray-700"
+								"p-2 rounded-lg w-full border-2 focus:border-primary hover:border-gray-400 outline-none"
 							}
 							placeholder={"Password"}
 							name={"password"}
@@ -122,7 +123,7 @@ const RegisterForm = () => {
 						<input
 							type="password"
 							className={
-								"p-2 rounded-lg w-full border-2 focus:border-primary hover:border-gray-400 outline-none dark:bg-gray-700"
+								"p-2 rounded-lg w-full border-2 focus:border-primary hover:border-gray-400 outline-none"
 							}
 							placeholder={"Confirm Password"}
 							name={"confirmPassword"}

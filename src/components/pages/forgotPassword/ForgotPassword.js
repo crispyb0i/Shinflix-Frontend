@@ -79,7 +79,7 @@ export const ForgotPassword = () => {
 						<input
 							type="email"
 							className={
-								"p-2 rounded-lg w-full border-2 focus:border-primary hover:border-gray-400 outline-none dark:bg-gray-700"
+								"p-2 rounded-lg w-full border-2 focus:border-primary hover:border-gray-400 outline-none"
 							}
 							placeholder={"Email"}
 							name={"email"}

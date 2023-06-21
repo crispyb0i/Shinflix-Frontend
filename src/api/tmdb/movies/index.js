@@ -14,3 +14,29 @@ export const fetchMovieDetails = async (movie_id) => {
 		throw new Error("Failed to perform movie search");
 	}
 };
+
+export const fetchMovieCredits = async (movie_id) => {
+	try {
+		const response = await fetch(
+			`https://api.themoviedb.org/3/movie/${movie_id}/credits`,
+			tmdbApiOptions
+		);
+		return response.json();
+	} catch (err) {
+		console.error(err);
+		throw new Error("Failed to perform credit search");
+	}
+};
+
+export const fetchMovieImages = async (movie_id) => {
+	try {
+		const response = await fetch(
+			`https://api.themoviedb.org/3/movie/${movie_id}/images`,
+			tmdbApiOptions
+		);
+		return response.json();
+	} catch (err) {
+		console.error(err);
+		throw new Error("Failed to perform image search");
+	}
+};

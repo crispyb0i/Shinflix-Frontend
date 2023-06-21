@@ -15,6 +15,6 @@ export const multiSearch = (
 	)
 		.then((response) => response.json())
 		.catch((err) => {
-			console.err(err);
+			console.error(err);
 			throw new Error("Failed to perform multi-search");
 		});

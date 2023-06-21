@@ -95,7 +95,7 @@ export const UpdateCredentials = () => {
 				{status.error}
 			</Modal>
 
-			<div className="flex flex-grow items-center justify-center flex-col dark:bg-gray-800 dark:text-gray-100 transition-all">
+			<div className="flex flex-grow items-center justify-center flex-col transition-all">
 				<h1
 					className={
 						"font-thin text-3xl text-center mb-6 flex items-end justify-center items-center"
@@ -111,7 +111,7 @@ export const UpdateCredentials = () => {
 						<input
 							type="text"
 							className={
-								"p-2 rounded-lg w-full border-2 focus:border-primary hover:border-gray-400 outline-none dark:bg-gray-700"
+								"p-2 rounded-lg w-full border-2 focus:border-primary hover:border-gray-400 outline-none"
 							}
 							placeholder={"Email"}
 							name={"email"}
@@ -125,7 +125,7 @@ export const UpdateCredentials = () => {
 						<input
 							type="password"
 							className={
-								"p-2 rounded-lg w-full border-2 focus:border-primary hover:border-gray-400 outline-none dark:bg-gray-700"
+								"p-2 rounded-lg w-full border-2 focus:border-primary hover:border-gray-400 outline-none"
 							}
 							placeholder={"Leave blank to leave the same"}
 							name={"password"}
@@ -140,7 +140,7 @@ export const UpdateCredentials = () => {
 						<input
 							type="password"
 							className={
-								"p-2 rounded-lg w-full border-2 focus:border-primary hover:border-gray-400 outline-none dark:bg-gray-700"
+								"p-2 rounded-lg w-full border-2 focus:border-primary hover:border-gray-400 outline-none"
 							}
 							placeholder={"Leave blank to leave the same"}
 							name={"confirmPassword"}

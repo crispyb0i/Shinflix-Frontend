@@ -78,12 +78,13 @@ const LoginForm = () => {
 						<input
 							type="email"
 							className={
-								"p-2 rounded-lg w-full border-2 focus:border-primary hover:border-gray-400 outline-none dark:bg-gray-700"
+								"p-2 rounded-lg w-full border-2 focus:border-primary hover:border-gray-400 outline-none"
 							}
 							placeholder={"Email"}
 							name={"email"}
 							onChange={handleChange}
 							autoComplete={"off"}
+							required
 						/>
 					</div>
 					<div className={"my-3"}>
@@ -91,13 +92,14 @@ const LoginForm = () => {
 						<input
 							type="password"
 							className={
-								"p-2 rounded-lg w-full border-2 focus:border-primary hover:border-gray-400 outline-none dark:bg-gray-700"
+								"p-2 rounded-lg w-full border-2 focus:border-primary hover:border-gray-400 outline-none"
 							}
 							placeholder={"Password"}
 							name={"password"}
 							onChange={handleChange}
 							required
 							minLength={7}
+							autoComplete={"off"}
 						/>
 					</div>
 					<div className={"flex justify-end mt-6"}>

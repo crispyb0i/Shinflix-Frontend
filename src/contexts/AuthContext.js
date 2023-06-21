@@ -10,13 +10,17 @@ import {
 	updatePassword,
 	updateProfile,
 } from "@firebase/auth";
-import { addNewUserToFirestore } from "../services/firebase/firestore";
+import {
+	addNewUserToFirestore,
+	findUserByID,
+} from "../services/firebase/firestore";
 // import { collection, where, query } from "firebase/firestore";
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
 	const [currentUser, setCurrentUser] = useState(null);
+	const [currentUserData, setCurrentUserData] = useState(null);
 	const [loading, setLoading] = useState(true);
 
 	const addNewUser = (uid, email) => addNewUserToFirestore(uid, email);
@@ -92,6 +96,11 @@ export const AuthProvider = ({ children }) => {
 	useEffect(() => {
 		const unsubscribe = auth.onAuthStateChanged((user) => {
 			setCurrentUser(user);
+			const userData = user
+				? findUserByID(user.uid).then((user) => {
+						setCurrentUserData(user);
+				  })
+				: setCurrentUserData(null);
 			setLoading(false);
 		});
 		return unsubscribe;
@@ -100,6 +109,7 @@ export const AuthProvider = ({ children }) => {
 	const value = {
 		addNewUser,
 		currentUser,
+		currentUserData,
 		deleteUserProfilePicture,
 		signup,
 		login,
