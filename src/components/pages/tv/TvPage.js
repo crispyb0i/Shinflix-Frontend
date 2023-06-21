@@ -137,7 +137,7 @@ export const TvPage = () => {
 					{/* CREDITS */}
 					{tvCredits && (
 						<div>
-							<div className="flex flex-col m-auto bg-gray-200 items-center pt-10">
+							<div className="flex flex-col m-auto bg-gray-200 pt-10 pl-6">
 								<h1 className="text-3xl mb-10 font-bold">Cast</h1>
 								<div className="flex flex-row overflow-x-auto w-full">
 									{tvCredits.map(({ id, title, profile_path, name }) => (
@@ -156,7 +156,7 @@ export const TvPage = () => {
 					)}
 					{seasons && (
 						<div>
-							<div className="flex flex-col m-auto bg-gray-200 items-center pt-10">
+							<div className="flex flex-col m-auto bg-gray-200 pt-10 pl-6">
 								<h1 className="text-3xl mb-10 font-bold">Seasons</h1>
 								<div className="flex flex-row overflow-x-auto w-full">
 									{seasons.map(({ name, poster_path, season_number }) => (
