@@ -6,24 +6,19 @@ import {
 	fetchMovieImages,
 } from "../../../api/tmdb/index";
 import { LoadingSpinner } from "../../common";
-import {
-	addToUserFavorites,
-	findUserByID,
-} from "../../../services/firebase/firestore";
+import { addToUserFavorites } from "../../../services/firebase/firestore";
 import { AuthContext } from "../../../contexts/AuthContext";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import MediaCard from "../../template/MediaCard";
 
 export const MoviePage = () => {
-	const auth = useContext(AuthContext);
-	console.log("auth", auth);
-	findUserByID(auth.currentUser.uid);
-
+	const { currentUser } = useContext(AuthContext);
 	const [movieData, setMovieData] = useState(null);
 	const [movieCredits, setMovieCredits] = useState(null);
 	const [movieImages, setMovieImages] = useState(null);
 	const [loading, setLoading] = useState(false);
 	const movieId = useParams().movieid;
+	const navigate = useNavigate();
 	const {
 		adult,
 		backdrop_path,
@@ -75,8 +70,12 @@ export const MoviePage = () => {
 	console.log(movieData);
 
 	const handleFavorite = async () => {
+		if (!currentUser) {
+			navigate("/login");
+			return;
+		}
 		try {
-			await addToUserFavorites(auth.currentUser.uid, movieData);
+			await addToUserFavorites(currentUser.uid, movieData);
 			console.log("ADDED TO FAVORITES");
 		} catch (error) {
 			console.error("ERROR adding to favorites ", error);

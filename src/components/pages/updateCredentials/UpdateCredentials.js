@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { Link, Navigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 import { Modal } from "../../common";
 import { AuthContext } from "../../../contexts/AuthContext";
 
