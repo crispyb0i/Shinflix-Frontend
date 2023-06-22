@@ -95,7 +95,6 @@ export const findUserByID = async (user_id) => {
 	const usersRef = doc(db, "users", user_id);
 	const userDoc = await getDoc(usersRef);
 	if (userDoc.exists()) {
-		console.log("EXISTS", userDoc.data());
 		return userDoc.data();
 	} else {
 		console.log("User not found");

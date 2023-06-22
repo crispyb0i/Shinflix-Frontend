@@ -87,7 +87,7 @@ export const MoviePage = () => {
 							<img
 								src={`${process.env.REACT_APP_TMDB_IMAGE_URL}${poster_path}`}
 								alt={`${title} backdrop`}
-								className={"flex-none w-72 h-108  rounded-lg"}
+								className={"flex-none w-72 h-108 rounded-lg shadow-lg"}
 							/>
 							<div className="text-white-700 hidden md:block ml-20">
 								<h1 className={"text-5xl font-bold"}>{title}</h1>
@@ -138,7 +138,7 @@ export const MoviePage = () => {
 					{/* CREDITS */}
 					{movieCredits && (
 						<div>
-							<div className="flex flex-col m-auto pt-10 px-5">
+							<div className="flex flex-col m-auto pt-10 px-5 shadow-lg">
 								<h1 className="text-3xl mb-10 font-bold">Cast</h1>
 								<div className="flex flex-row overflow-x-auto w-full">
 									{movieCredits.map(({ id, title, profile_path, name }) => (
@@ -156,7 +156,7 @@ export const MoviePage = () => {
 						</div>
 					)}
 					{movieImages && (
-						<div className="flex flex-col justify-center items-center bg-black-800">
+						<div className="flex flex-col justify-center items-center">
 							{movieImages.backdrops.length > 0 && (
 								<>
 									<h1 className="text-3xl m-auto my-10 font-bold">Backdrops</h1>
@@ -193,6 +193,8 @@ export const MoviePage = () => {
 							</div>
 						</div>
 					)}
+					{/* ADD PADDING TO END OF PAGE */}
+					<div className="h-40"></div>
 				</div>
 			)}
 		</>

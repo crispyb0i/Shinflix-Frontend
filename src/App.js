@@ -17,6 +17,7 @@ import {
 import { SiteSettingsProvider, ThemeProvider, AuthProvider } from "./contexts";
 import Navbar from "./components/blocks/Navbar";
 import { TvPage } from "./components/pages/tv/TvPage";
+import { Footer } from "./components/blocks/Footer";
 
 function App() {
 	return (
@@ -58,6 +59,7 @@ function App() {
 								/>
 								<Route path="*" element={<NotFound />} />
 							</Routes>
+							{/* <Footer /> */}
 						</div>
 					</BrowserRouter>
 				</AuthProvider>

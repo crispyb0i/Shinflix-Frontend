@@ -12,7 +12,6 @@ const MediaCard = ({
 	const [imageError, setImageError] = useState(false);
 
 	const handleImageError = () => {
-		console.log("HANDLEIMAGEERROR");
 		setImageError(true);
 	};
 
@@ -26,19 +25,21 @@ const MediaCard = ({
 	}
 
 	return (
-		<div key={id} className={"w-36 h-88 mr-5 mb-4"} dir="ltr">
+		<div key={id} className={"w-40 h-88 mr-5 mb-4"} dir="ltr">
 			<div className={"w-full"}>
 				<img
 					src={image_url}
 					alt={`${title || name}`}
-					className={"w-full rounded-lg shadow-lg"}
+					className={"w-full rounded-lg shadow-xl"}
 					onError={handleImageError}
 				/>
 			</div>
 
 			<div className="p-3">
-				<h1 className="font-bold">{title || name}</h1>
-				<p className="mt-1">{release_date}</p>
+				<h1 className="font-bold text-sm max-h-10 overflow-hidden">
+					{title || name}
+				</h1>
+				<p className="mt-1 text-sm font-light">{release_date}</p>
 			</div>
 		</div>
 	);

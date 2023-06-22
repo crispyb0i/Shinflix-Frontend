@@ -19,7 +19,7 @@ export default function Navbar() {
 		{ name: "Discover", href: "/discover", current: false },
 	]);
 
-	const { currentUser, currentUserData } = useContext(AuthContext);
+	const { currentUser } = useContext(AuthContext);
 	const currentPage = useLocation().pathname;
 
 	useEffect(() => {

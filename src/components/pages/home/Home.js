@@ -77,7 +77,7 @@ export const Home = () => {
 				{loading ? (
 					<LoadingSpinner />
 				) : (
-					<div className="w-full">
+					<div className="w-full px-10">
 						{trending && !searchResults && (
 							<div className="flex flex-col m-auto pt-10 px-5">
 								<h1 className="text-3xl mb-10 text-left">Trending</h1>

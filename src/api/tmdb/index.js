@@ -5,7 +5,14 @@ import {
 	fetchMovieImages,
 } from "./movies";
 import { multiSearch } from "./multi";
-import { fetchShowCredits, fetchShowDetails, fetchShowImages } from "./shows";
+import {
+	fetchShowCredits,
+	fetchShowDetails,
+	fetchShowImages,
+	fetchSeasonCredits,
+	fetchSeasonDetail,
+	fetchSeasonImages,
+} from "./shows";
 import {
 	fetchPersonCombinedCredits,
 	fetchPersonDetails,
@@ -20,6 +27,9 @@ export {
 	fetchPersonDetails,
 	fetchPersonImages,
 	fetchPersonSocials,
+	fetchSeasonCredits,
+	fetchSeasonDetail,
+	fetchSeasonImages,
 	fetchShowCredits,
 	fetchShowDetails,
 	fetchShowImages,

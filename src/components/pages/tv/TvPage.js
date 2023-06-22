@@ -85,15 +85,15 @@ export const TvPage = () => {
 							<img
 								src={`${process.env.REACT_APP_TMDB_IMAGE_URL}${poster_path}`}
 								alt={`${name} backdrop`}
-								className={"flex-none w-72 h-108  rounded-lg"}
+								className={"flex-none w-72 h-108 rounded-lg shadow-lg"}
 							/>
 							<div className="text-white-700 hidden md:block ml-20">
 								<h1 className={"text-5xl font-bold"}>{name}</h1>
 								{tagline && <p className={"py-3 mb-3"}>{tagline}</p>}
 								{genres && (
 									<div className={"mb-3 italic"}>
-										{genres.map((genre) => (
-											<span key={genre.id}>{genre.name} </span>
+										{genres.map((genre, i) => (
+											<span key={i}>{genre.name} </span>
 										))}
 									</div>
 								)}
@@ -116,8 +116,8 @@ export const TvPage = () => {
 						{tagline && <p className={"py-3 mb-3"}>{tagline}</p>}
 						{genres && (
 							<div className={"mb-3 italic"}>
-								{genres.map((genre) => (
-									<span key={genre.id}>{genre.name} </span>
+								{genres.map((genre, i) => (
+									<span key={i}>{genre.name} </span>
 								))}
 							</div>
 						)}
@@ -137,26 +137,29 @@ export const TvPage = () => {
 					{/* CREDITS */}
 					{tvCredits && (
 						<div>
-							<div className="flex flex-col m-auto bg-gray-200 pt-10 pl-6">
+							<div className="flex flex-col m-auto pt-10 pl-6 shadow-lg">
 								<h1 className="text-3xl mb-10 font-bold">Cast</h1>
 								<div className="flex flex-row overflow-x-auto w-full">
-									{tvCredits.map(({ id, title, profile_path, name }) => (
-										<Link to={`/person/${id}`} key={id}>
-											<MediaCard
-												title={title}
-												media_type={"person"}
-												profile_path={profile_path}
-												name={name}
-											/>
-										</Link>
-									))}
+									{tvCredits.map(
+										({ id, title, profile_path, name, release_date }) => (
+											<Link to={`/person/${id}`} key={id}>
+												<MediaCard
+													title={title}
+													media_type={"person"}
+													profile_path={profile_path}
+													name={name}
+													release_date={release_date}
+												/>
+											</Link>
+										)
+									)}
 								</div>
 							</div>
 						</div>
 					)}
 					{seasons && (
 						<div>
-							<div className="flex flex-col m-auto bg-gray-200 pt-10 pl-6">
+							<div className="flex flex-col m-auto pt-10 pl-6">
 								<h1 className="text-3xl mb-10 font-bold">Seasons</h1>
 								<div className="flex flex-row overflow-x-auto w-full">
 									{seasons.map(({ name, poster_path, season_number }) => (
@@ -214,6 +217,8 @@ export const TvPage = () => {
 							</div>
 						</div>
 					)}
+					{/* ADD PADDING TO END OF PAGE */}
+					<div className="h-40"></div>
 				</div>
 			)}
 		</>

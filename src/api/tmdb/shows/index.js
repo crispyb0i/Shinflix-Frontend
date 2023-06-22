@@ -40,3 +40,40 @@ export const fetchShowImages = async (tv_id) => {
 		throw new Error("Failed to perform image search");
 	}
 };
+
+export const fetchSeasonDetail = async (tv_id, season_number) => {
+	try {
+		const response = await fetch(
+			`https://api.themoviedb.org/3/tv/${tv_id}/season/${season_number}`,
+			tmdbApiOptions
+		);
+		return response.json();
+	} catch (err) {
+		console.error(err);
+		throw new Error("Failed to perform image search");
+	}
+};
+
+export const fetchSeasonCredits = async (tv_id, season_number) => {
+	try {
+		const response = await fetch(
+			`https://api.themoviedb.org/3/tv/${tv_id}/season/${season_number}/credits`,
+			tmdbApiOptions
+		);
+		return response.json();
+	} catch (error) {
+		throw new Error("failed to fetch season credits");
+	}
+};
+
+export const fetchSeasonImages = async (tv_id, season_number) => {
+	try {
+		const response = await fetch(
+			`https://api.themoviedb.org/3/tv/${tv_id}/season/${season_number}/images`,
+			tmdbApiOptions
+		);
+		return response.json();
+	} catch (error) {
+		throw new Error("failed to fetch season images");
+	}
+};

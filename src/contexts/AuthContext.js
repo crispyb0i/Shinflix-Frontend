@@ -22,7 +22,7 @@ export const AuthProvider = ({ children }) => {
 	const [currentUser, setCurrentUser] = useState(null);
 	const [currentUserData, setCurrentUserData] = useState(null);
 	const [loading, setLoading] = useState(true);
-	console.log("currentUserData", currentUserData);
+	// console.log("currentUserData", currentUserData);
 
 	const addNewUser = (uid, email) => addNewUserToFirestore(uid, email);
 
