@@ -113,7 +113,7 @@ export const MoviePage = () => {
 							</div>
 						</div>
 					</div>
-					<div className="text-black-700 block md:hidden ml-20 my-20">
+					<div className="text-black-700 block md:hidden mx-5 my-20">
 						<h1 className={"text-5xl font-bold"}>{title}</h1>
 						{tagline && <p className={"py-3 mb-3"}>{tagline}</p>}
 						{genres && (

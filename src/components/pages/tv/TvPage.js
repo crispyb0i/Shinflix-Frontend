@@ -111,7 +111,7 @@ export const TvPage = () => {
 							</div>
 						</div>
 					</div>
-					<div className="text-white-700 block md:hidden ml-20 my-20">
+					<div className="text-white-700 block md:hidden mx-10 my-20">
 						<h1 className={"text-5xl font-bold"}>{name}</h1>
 						{tagline && <p className={"py-3 mb-3"}>{tagline}</p>}
 						{genres && (

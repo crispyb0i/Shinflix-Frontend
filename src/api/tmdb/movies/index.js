@@ -2,6 +2,10 @@ import { tmdbApiOptions } from "../apiOptions";
 
 // Movie APIs - Get the top level details of a movie by ID.
 
+// To implement videos from API response
+// Youtube: https://www.youtube.com/watch?v=h6hZkvrFIj0
+// Vimeo: https://vimeo.com/282875052
+
 export const fetchMovieDetails = async (movie_id) => {
 	try {
 		const response = await fetch(

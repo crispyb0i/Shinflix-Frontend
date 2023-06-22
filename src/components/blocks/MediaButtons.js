@@ -44,12 +44,15 @@ export const MediaButtons = ({ mediaData }) => {
 	};
 
 	const buttonStyle =
-		"flex justify-center items-center mr-1 rounded-lg h-12 w-12 hover:text-white";
+		"flex justify-center items-center mr-1 rounded-lg h-12 w-12";
 	const svgStyle = "w-8 h-8";
 	return (
 		<div className="flex flex-row mt-10">
 			{/* Favorite */}
-			<button onClick={handleFavorite} className={buttonStyle}>
+			<button
+				onClick={handleFavorite}
+				className={buttonStyle + " " + "hover:text-red-700"}
+			>
 				{!favorited ? (
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
@@ -77,7 +80,10 @@ export const MediaButtons = ({ mediaData }) => {
 				)}
 			</button>
 			{/* Journal */}
-			<button onClick={handleJournal} className={buttonStyle}>
+			<button
+				onClick={handleJournal}
+				className={buttonStyle + " " + "hover:text-blue-700"}
+			>
 				{true ? (
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
@@ -104,7 +110,10 @@ export const MediaButtons = ({ mediaData }) => {
 					</svg>
 				)}
 			</button>
-			<button className={buttonStyle} onClick={handleWatched}>
+			<button
+				className={buttonStyle + " " + "hover:text-green-700"}
+				onClick={handleWatched}
+			>
 				{true ? (
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
