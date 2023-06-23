@@ -2,8 +2,13 @@ import React from "react";
 
 export const LoadingSpinner = () => {
 	return (
-		<div className="flex items-center justify-center">
-			<div className="animate-spin rounded-full h-14 w-14 border-t-4 border-b-4 border-gray-900"></div>
+		<div
+			class="inline-block h-16 w-16 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+			role="status"
+		>
+			<span class="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
+				Loading...
+			</span>
 		</div>
 	);
 };

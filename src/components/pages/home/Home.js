@@ -75,7 +75,9 @@ export const Home = () => {
 			</div>
 			<div className="w-screen">
 				{loading ? (
-					<LoadingSpinner />
+					<div className="flex items-center justify-center">
+						<LoadingSpinner />
+					</div>
 				) : (
 					<div className="w-full px-10">
 						{trending && !searchResults && (
