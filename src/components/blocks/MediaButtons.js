@@ -14,7 +14,6 @@ export const MediaButtons = ({ mediaData }) => {
 
 	useEffect(() => {
 		if (currentUserData && mediaData) {
-			console.log("HHHHH", mediaData);
 			const favorites = currentUserData.favorites;
 			for (let i = 0; i < favorites.length; i++) {
 				if (favorites[i].id === mediaData.id) setFavorited(true);
@@ -22,26 +21,27 @@ export const MediaButtons = ({ mediaData }) => {
 		}
 	}, [currentUserData, mediaData]);
 
-	const handleWatched = async () => {
-		console.log("clicked watch");
-	};
+	const handleWatched = async () => {};
 
 	const handleFavorite = async () => {
 		if (!currentUser) {
 			navigate("/login");
 			return;
 		}
+		const newFavorited = !favorited; // Store the new value in a variable
+
+		setFavorited(newFavorited); // Update the state immediately
+
 		try {
 			// await addToUserFavorites(currentUser.uid, mediaData);
 			await handleFavoriteMedia(currentUser.uid, mediaData);
-			setFavorited(!favorited);
 		} catch (error) {
+			setFavorited(!newFavorited); // Revert the state back to the previous value
 			console.error("ERROR adding to favorites ", error);
 		}
 	};
-	const handleJournal = () => {
-		console.log("handleJournal clicked");
-	};
+
+	const handleJournal = () => {};
 
 	const buttonStyle =
 		"flex justify-center items-center mr-1 rounded-lg h-12 w-12";

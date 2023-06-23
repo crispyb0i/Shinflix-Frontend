@@ -107,10 +107,11 @@ export const UpdateProfile = () => {
 				{modal.content}
 			</Modal>
 
-			<div className="px-15 py-20 flex items-center justify-center">
+			<div className="px-15 py-20 h-full flex  justify-center">
 				<form onSubmit={handleSubmit}>
+					<h1 className="text-4xl mb-16 text-left">Settings</h1>
 					<div className="space-y-12">
-						<div className="border-b border-gray-900/10 pb-12">
+						<div className="">
 							<h2 className="text-base font-semibold leading-7 text-gray-900">
 								Email
 							</h2>

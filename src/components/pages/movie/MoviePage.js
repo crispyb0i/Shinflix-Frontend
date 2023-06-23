@@ -64,6 +64,8 @@ export const MoviePage = () => {
 		fetchMovieData();
 	}, []);
 
+	console.log(movieCredits);
+
 	return (
 		<>
 			{loading ? (
@@ -136,7 +138,7 @@ export const MoviePage = () => {
 						<MediaButtons />
 					</div>
 					{/* CREDITS */}
-					{movieCredits && (
+					{movieCredits && movieCredits.length > 0 && (
 						<div>
 							<div className="flex flex-col m-auto pt-10 px-5 shadow-lg">
 								<h1 className="text-3xl mb-10 font-bold">Cast</h1>

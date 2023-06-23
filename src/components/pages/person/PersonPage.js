@@ -48,6 +48,8 @@ export const PersonPage = () => {
 		profile_path,
 	} = personDetails || {};
 
+	console.log("hi", also_known_as);
+
 	const {
 		imdb_id,
 		facebook_id,
@@ -191,7 +193,7 @@ export const PersonPage = () => {
 							<p>{place_of_birth}</p>
 						</div>
 					)}
-					{also_known_as && (
+					{also_known_as.length > 0 && (
 						<div className="mb-4">
 							<h4 className="font-bold">Also Known As</h4>
 							{also_known_as.map((name) => (

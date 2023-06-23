@@ -97,10 +97,10 @@ export const TvPage = () => {
 										))}
 									</div>
 								)}
-								<h4 className="text-xl font-bold">Release Date</h4>
 
 								{release_date && (
 									<>
+										<h4 className="text-xl font-bold">Release Date</h4>
 										<p className="mb-3">{release_date}</p>
 										<h4 className="text-xl font-bold">Overview</h4>
 									</>
@@ -135,7 +135,7 @@ export const TvPage = () => {
 					</div>
 
 					{/* CREDITS */}
-					{tvCredits && (
+					{tvCredits && tvCredits.length > 0 && (
 						<div>
 							<div className="flex flex-col m-auto pt-10 pl-6 shadow-lg">
 								<h1 className="text-3xl mb-10 font-bold">Cast</h1>
@@ -181,7 +181,7 @@ export const TvPage = () => {
 					)}
 					{tvImages && (
 						<div className="flex flex-col justify-center items-center bg-black-800">
-							{tvImages.backdrops.length > 0 && (
+							{tvImages && tvImages.backdrops.length > 0 && (
 								<>
 									<h1 className="text-3xl m-auto my-10 font-bold">Backdrops</h1>
 									<div className="flex flex-row flex-wrap justify-center">
