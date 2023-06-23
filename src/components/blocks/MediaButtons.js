@@ -2,7 +2,7 @@ import { useState, useContext, useEffect } from "react";
 import { AuthContext } from "../../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import {
-	addToUserFavorites,
+	// addToUserFavorites,
 	handleFavoriteMedia,
 } from "../../services/firebase/firestore";
 
@@ -51,7 +51,7 @@ export const MediaButtons = ({ mediaData }) => {
 			{/* Favorite */}
 			<button
 				onClick={handleFavorite}
-				className={buttonStyle + " " + "hover:text-red-700"}
+				className={buttonStyle + " hover:text-red-700"}
 			>
 				{!favorited ? (
 					<svg
@@ -82,7 +82,7 @@ export const MediaButtons = ({ mediaData }) => {
 			{/* Journal */}
 			<button
 				onClick={handleJournal}
-				className={buttonStyle + " " + "hover:text-blue-700"}
+				className={buttonStyle + " hover:text-blue-700"}
 			>
 				{true ? (
 					<svg
@@ -111,7 +111,7 @@ export const MediaButtons = ({ mediaData }) => {
 				)}
 			</button>
 			<button
-				className={buttonStyle + " " + "hover:text-green-700"}
+				className={buttonStyle + " hover:text-green-700"}
 				onClick={handleWatched}
 			>
 				{true ? (

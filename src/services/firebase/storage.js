@@ -11,10 +11,3 @@ export const uploadFile = (image, path = "images") => {
 		return getDownloadURL(snapshot.ref);
 	});
 };
-
-// Other storage-related functions...
-
-export default {
-	uploadFile,
-	// Export other functions if needed
-};

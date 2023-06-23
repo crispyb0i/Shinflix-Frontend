@@ -28,6 +28,7 @@ export default function Navbar() {
 			current: item.href === currentPage,
 		}));
 		setNavigation(updatedNav);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [currentPage]);
 
 	return (

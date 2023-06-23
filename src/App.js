@@ -18,7 +18,7 @@ import {
 import { SiteSettingsProvider, ThemeProvider, AuthProvider } from "./contexts";
 import Navbar from "./components/blocks/Navbar";
 import { TvPage } from "./components/pages/tv/TvPage";
-import { Footer } from "./components/blocks/Footer";
+// import { Footer } from "./components/blocks/Footer";
 
 function App() {
 	return (

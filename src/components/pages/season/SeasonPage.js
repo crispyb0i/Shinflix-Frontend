@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import {
 	fetchSeasonDetails,
-	fetchSeasonCredits,
-	fetchSeasonImages,
+	// fetchSeasonCredits,
+	// fetchSeasonImages,
 } from "../../../api/tmdb";
 
 export const SeasonPage = () => {
@@ -17,7 +17,7 @@ export const SeasonPage = () => {
 			setSeasonDetails(seasonDetails);
 		};
 		fetchSeasonInfo();
-	}, []);
+	}, [season_number, tv_id]);
 
 	console.log(seasonDetails);
 

@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { Link, Navigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Modal } from "../../common";
 import { AuthContext } from "../../../contexts/AuthContext";
 
@@ -16,6 +16,7 @@ export const ForgotPassword = () => {
 	});
 
 	const [isOpen, setIsOpen] = useState(false);
+	// eslint-disable-next-line no-unused-vars
 	const [modal, setModal] = useState({
 		title: "",
 		content: "",
@@ -29,10 +30,10 @@ export const ForgotPassword = () => {
 		});
 	};
 
-	const openModal = (modal) => {
-		setModal(modal);
-		setIsOpen(true);
-	};
+	// const openModal = (modal) => {
+	// 	setModal(modal);
+	// 	setIsOpen(true);
+	// };
 
 	const closeModal = () => {
 		setIsOpen(false);

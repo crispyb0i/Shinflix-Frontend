@@ -1,4 +1,4 @@
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router";
 import {
 	fetchMovieDetails,
@@ -6,7 +6,7 @@ import {
 	fetchMovieImages,
 } from "../../../api/tmdb/index";
 import { LoadingSpinner } from "../../common";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import MediaCard from "../../blocks/MediaCard";
 import { MediaButtons } from "../../blocks/MediaButtons";
 
@@ -15,45 +15,44 @@ export const MoviePage = () => {
 	const [movieCredits, setMovieCredits] = useState(null);
 	const [movieImages, setMovieImages] = useState(null);
 	const [loading, setLoading] = useState(false);
-	const movieId = useParams().movieid;
-	const navigate = useNavigate();
+	const movieID = useParams().movieid;
 	const {
-		adult,
+		// adult,
 		backdrop_path,
-		belongs_to_collection,
-		budget,
+		// belongs_to_collection,
+		// budget,
 		genres,
-		homepage,
-		id,
-		imdb_id,
-		original_language,
-		original_title,
+		// homepage,
+		// id,
+		// imdb_id,
+		// original_language,
+		// original_title,
 		overview,
-		popularity,
+		// popularity,
 		poster_path,
-		production_companies,
-		production_countries,
+		// production_companies,
+		// production_countries,
 		release_date,
-		revenue,
-		runtime,
-		spoken_languages,
-		status,
+		// revenue,
+		// runtime,
+		// spoken_languages,
+		// status,
 		tagline,
 		title,
-		video,
-		vote_average,
-		vote_count,
+		// video,
+		// vote_average,
+		// vote_count,
 	} = movieData || {};
 
 	useEffect(() => {
 		const fetchMovieData = async () => {
 			setLoading(true);
 			try {
-				const movieDetailsResponse = await fetchMovieDetails(movieId);
+				const movieDetailsResponse = await fetchMovieDetails(movieID);
 				setMovieData(movieDetailsResponse);
-				const creditsResponse = await fetchMovieCredits(movieId);
+				const creditsResponse = await fetchMovieCredits(movieID);
 				setMovieCredits(creditsResponse.cast);
-				const movieImages = await fetchMovieImages(movieId);
+				const movieImages = await fetchMovieImages(movieID);
 				setMovieImages(movieImages);
 			} catch (error) {
 				console.error(error);
@@ -62,7 +61,7 @@ export const MoviePage = () => {
 			}
 		};
 		fetchMovieData();
-	}, []);
+	}, [movieID]);
 
 	console.log(movieCredits);
 

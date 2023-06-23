@@ -30,7 +30,7 @@ export const PersonPage = () => {
 			// setPersonImages(personImages);
 		};
 		fetchPerson();
-	}, []);
+	}, [personID]);
 
 	const {
 		// adult,
@@ -48,15 +48,13 @@ export const PersonPage = () => {
 		profile_path,
 	} = personDetails || {};
 
-	console.log("hi", also_known_as);
-
 	const {
 		imdb_id,
 		facebook_id,
 		instagram_id,
-		tiktok_id,
+		// tiktok_id,
 		twitter_id,
-		youtube_id,
+		// youtube_id,
 	} = personSocials || {};
 
 	return (
@@ -81,6 +79,7 @@ export const PersonPage = () => {
 											href={`https://www.imdb.com/name/${imdb_id}/`}
 											class="mr-7 text-black "
 											target="_blank"
+											rel="noreferrer"
 										>
 											<svg
 												role="img"
@@ -98,6 +97,7 @@ export const PersonPage = () => {
 											href={`https://www.facebook.com/${facebook_id}/`}
 											class="mr-7 text-black "
 											target="_blank"
+											rel="noreferrer"
 										>
 											<svg
 												xmlns="http://www.w3.org/2000/svg"
@@ -115,6 +115,7 @@ export const PersonPage = () => {
 											href={`https://www.twitter.com/${twitter_id}/`}
 											class="mr-7 text-black "
 											target="_blank"
+											rel="noreferrer"
 										>
 											<svg
 												xmlns="http://www.w3.org/2000/svg"
@@ -132,6 +133,7 @@ export const PersonPage = () => {
 											href={`https://www.instagram.com/${instagram_id}/`}
 											class="mr-7 text-black "
 											target="_blank"
+											rel="noreferrer"
 										>
 											<svg
 												xmlns="http://www.w3.org/2000/svg"
@@ -149,6 +151,7 @@ export const PersonPage = () => {
 										href={`https://www.tiktok.com/${tiktok_id}/`}
 										class="mr-7 text-black "
 										target="_blank"
+										rel="noreferrer"
 									></a> */}
 									{/* YouTube  */}
 									{/* <a

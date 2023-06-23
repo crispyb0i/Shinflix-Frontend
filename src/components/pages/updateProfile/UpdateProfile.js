@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import { uploadFile } from "../../../services/firebase/storage";
-import { PhotoIcon, UserCircleIcon } from "@heroicons/react/24/solid";
+import { UserCircleIcon } from "@heroicons/react/24/solid";
 import { AuthContext } from "../../../contexts/AuthContext";
 import { updateUserDocument } from "../../../services/firebase/firestore";
 import { Modal } from "../../common";
@@ -107,7 +107,7 @@ export const UpdateProfile = () => {
 				{modal.content}
 			</Modal>
 
-			<div className="px-15 py-20 h-full flex  justify-center">
+			<div className="px-15 py-20 h-full flex justify-center">
 				<form onSubmit={handleSubmit}>
 					<h1 className="text-4xl mb-16 text-left">Settings</h1>
 					<div className="space-y-12">
@@ -194,6 +194,7 @@ export const UpdateProfile = () => {
 												<img
 													src={currentUser.photoURL}
 													className={"object-cover w-full h-full"}
+													alt="profile"
 												/>
 											</div>
 										) : (

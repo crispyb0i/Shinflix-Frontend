@@ -10,48 +10,48 @@ import MediaCard from "../../blocks/MediaCard";
 import { MediaButtons } from "../../blocks/MediaButtons";
 
 export const TvPage = () => {
-	const showId = useParams().tvid;
+	const showID = useParams().tvid;
 	const [loading, setLoading] = useState(false);
 	const [tvData, setTvData] = useState(null);
 	const [tvImages, setTvImages] = useState(null);
 	const [tvCredits, setTvCredits] = useState(null);
 	const {
-		adult,
+		// adult,
 		backdrop_path,
-		first_air_date,
+		// first_air_date,
 		genres,
-		homepage,
+		// homepage,
 		id,
 		name,
 		seasons,
-		original_language,
-		original_title,
+		// original_language,
+		// original_title,
 		overview,
-		popularity,
+		// popularity,
 		poster_path,
-		production_companies,
-		production_countries,
+		// production_companies,
+		// production_countries,
 		release_date,
-		revenue,
-		runtime,
-		spoken_languages,
-		status,
+		// revenue,
+		// runtime,
+		// spoken_languages,
+		// status,
 		tagline,
-		title,
-		video,
-		vote_average,
-		vote_count,
+		// title,
+		// video,
+		// vote_average,
+		// vote_count,
 	} = tvData || {};
 
 	useEffect(() => {
 		const fetchMovieData = async () => {
 			setLoading(true);
 			try {
-				const tvDetailResponse = await fetchShowDetails(showId);
+				const tvDetailResponse = await fetchShowDetails(showID);
 				setTvData(tvDetailResponse);
-				const creditsResponse = await fetchShowCredits(showId);
+				const creditsResponse = await fetchShowCredits(showID);
 				setTvCredits(creditsResponse.cast);
-				const showImages = await fetchShowImages(showId);
+				const showImages = await fetchShowImages(showID);
 				setTvImages(showImages);
 			} catch (error) {
 				console.error(error);
@@ -60,7 +60,7 @@ export const TvPage = () => {
 			}
 		};
 		fetchMovieData();
-	}, []);
+	}, [showID]);
 
 	return (
 		<>
