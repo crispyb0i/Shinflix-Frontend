@@ -12,14 +12,16 @@ import {
 import { db } from "./firebase";
 
 export const addToUserFavorites = async (user_id, mediaData) => {
+	console.log(mediaData);
 	const UserRef = doc(db, "users", user_id);
 	// const favoritesRef = collection(UserRef, "favorites");
 	// console.log("FAVORITES COLLECTION", favoritesCollection.data());
 	await updateDoc(UserRef, {
 		favorites: arrayUnion({
-			name: mediaData.name || null,
 			backdrop_path: mediaData.backdrop_path || null,
 			id: mediaData.id || null,
+			media_type: mediaData.media_type || null,
+			name: mediaData.name || null,
 			poster_path: mediaData.poster_path || null,
 			release_date: mediaData.release_date || null,
 			tagline: mediaData.tagline || null,
@@ -72,22 +74,33 @@ export const addNewUserToFirestore = async (uid, email) => {
 };
 
 export const updateUserDocument = async (user_id, data) => {
-	const userCollectionRef = collection(db, "users");
+	console.log("HIIIIIIIT", data);
 	const userDocRef = doc(db, "users", user_id);
-	console.log(data);
-	const q = await query(
-		userCollectionRef,
-		where("displayName", "==", data.displayName),
-		where("uid", "!=", user_id)
-	);
-	const users = await getDocs(q);
+	console.log("HIT AGAIN");
 
-	const userExists = users.docs.length > 0;
-	if (userExists) {
-		throw new Error("Username already in use");
+	if (data.name) {
+		console.log("DATA.NAME");
+		const q = query(
+			collection(db, "users"),
+			where("displayName", "==", data.displayName),
+			where("uid", "!=", user_id)
+		);
+
+		const querySnapshot = await getDocs(q);
+		const users = querySnapshot.docs;
+
+		const userExists = users.length > 0;
+		if (userExists) {
+			throw new Error("Username already in use");
+		}
 	}
 
-	await updateDoc(userDocRef, data);
+	await updateDoc(userDocRef, {
+		...data, // Update all fields in the document
+		// updatedAt: serverTimestamp() // Optionally, update a timestamp field
+	});
+
+	console.log("User document updated successfully!");
 };
 
 export const findUserByID = async (user_id) => {

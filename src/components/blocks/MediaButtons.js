@@ -5,12 +5,14 @@ import {
 	// addToUserFavorites,
 	handleFavoriteMedia,
 } from "../../services/firebase/firestore";
+import { useParams } from "react-router-dom";
 
 export const MediaButtons = ({ mediaData }) => {
 	const authContext = useContext(AuthContext);
 	const { currentUser, currentUserData } = authContext;
 	const [favorited, setFavorited] = useState(false);
 	const navigate = useNavigate();
+	const media_type = useParams();
 
 	useEffect(() => {
 		if (currentUserData && mediaData) {
@@ -34,7 +36,10 @@ export const MediaButtons = ({ mediaData }) => {
 
 		try {
 			// await addToUserFavorites(currentUser.uid, mediaData);
-			await handleFavoriteMedia(currentUser.uid, mediaData);
+			await handleFavoriteMedia(currentUser.uid, {
+				...mediaData,
+				media_type: media_type.tvid ? "tv" : "movie",
+			});
 		} catch (error) {
 			setFavorited(!newFavorited); // Revert the state back to the previous value
 			console.error("ERROR adding to favorites ", error);

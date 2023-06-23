@@ -6,9 +6,10 @@ import {
 } from "react-vertical-timeline-component";
 import "react-vertical-timeline-component/style.min.css";
 import MediaCard from "../../blocks/MediaCard";
+import { Link } from "react-router-dom";
 
 export const ProfilePage = () => {
-	const { currentUser } = useContext(AuthContext);
+	const { currentUser, currentUserData } = useContext(AuthContext);
 	const movieIcon = (
 		<svg
 			xmlns="http://www.w3.org/2000/svg"
@@ -106,19 +107,31 @@ export const ProfilePage = () => {
 								<h3 className="text-4xl font-semibold leading-normal mb-2 text-blueGray-700 mb-2 text-center ">
 									{currentUser.displayName}
 								</h3>
-								{/* <div className="text-sm leading-normal mt-0 mb-2 text-blueGray-400 font-bold uppercase">
-									<i className="fas fa-map-marker-alt mr-2 text-lg text-blueGray-400"></i>
-									Los Angeles, California
-								</div>
-								<div className="mb-2 text-blueGray-600 mt-10">
-									<i className="fas fa-briefcase mr-2 text-lg text-blueGray-400"></i>
-									Solution Manager - Creative Tim Officer
-								</div>
-								<div className="mb-2 text-blueGray-600">
-									<i className="fas fa-university mr-2 text-lg text-blueGray-400"></i>
-									University of Computer Science
-								</div> */}
 							</div>
+							{currentUserData && currentUserData.favorites.length > 0 && (
+								<div>
+									<div className="mt-16">
+										<h1 className="text-2xl font-bold mb-5 ml-3">Favorites</h1>
+										<div className="flex flex-row overflow-x-auto w-full">
+											{currentUserData.favorites.map(
+												({ name, title, poster_path, media_type, id }) => (
+													<Link
+														to={`/${media_type}/${id}`}
+														key={`${id}${crypto.randomUUID()}`}
+													>
+														<MediaCard
+															title={title}
+															media_type={media_type}
+															poster_path={poster_path}
+															name={name}
+														/>
+													</Link>
+												)
+											)}
+										</div>
+									</div>
+								</div>
+							)}
 							<div className="mt-20 py-10 rounded-xl shadow-lg border-blueGray-200 bg-emerald-100">
 								<h1 className="text-3xl font-bold my-10 text-center">
 									Watch Timeline

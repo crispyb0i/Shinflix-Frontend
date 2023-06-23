@@ -13,6 +13,7 @@ import {
 import {
 	addNewUserToFirestore,
 	findUserByID,
+	updateUserDocument,
 } from "../services/firebase/firestore";
 // import { collection, where, query } from "firebase/firestore";
 
@@ -57,8 +58,10 @@ export const AuthProvider = ({ children }) => {
 		try {
 			await updateProfile(auth.currentUser, { photoURL: image_url });
 			setCurrentUser((prev) => ({ ...prev, photoURL: image_url }));
+			await updateUserDocument(auth.currentUser.uid, {
+				photoURL: image_url,
+			});
 			console.log("Profile picture updated successfully!");
-			// Any additional actions after profile update
 		} catch (error) {
 			console.error("Error updating profile picture:", error);
 		}
@@ -70,7 +73,6 @@ export const AuthProvider = ({ children }) => {
 			const updatedUser = auth.currentUser; // Fetch the updated user profile
 			setCurrentUser(updatedUser); // Update the local state with the updated user profile
 			console.log("Username successfully updated!");
-			// Any additional actions after profile update
 		} catch (error) {
 			console.error("Error updating username:", error);
 		}
