@@ -41,7 +41,7 @@ export const fetchShowImages = async (tv_id) => {
 	}
 };
 
-export const fetchSeasonDetail = async (tv_id, season_number) => {
+export const fetchSeasonDetails = async (tv_id, season_number) => {
 	try {
 		const response = await fetch(
 			`https://api.themoviedb.org/3/tv/${tv_id}/season/${season_number}`,

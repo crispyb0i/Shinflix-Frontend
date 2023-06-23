@@ -10,7 +10,7 @@ import {
 	fetchShowDetails,
 	fetchShowImages,
 	fetchSeasonCredits,
-	fetchSeasonDetail,
+	fetchSeasonDetails,
 	fetchSeasonImages,
 } from "./shows";
 import {
@@ -28,7 +28,7 @@ export {
 	fetchPersonImages,
 	fetchPersonSocials,
 	fetchSeasonCredits,
-	fetchSeasonDetail,
+	fetchSeasonDetails,
 	fetchSeasonImages,
 	fetchShowCredits,
 	fetchShowDetails,

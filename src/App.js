@@ -11,6 +11,7 @@ import {
 	ProfilePage,
 	Register,
 	MoviePage,
+	SeasonPage,
 	UpdateProfile,
 	UpdateCredentials,
 } from "./components/pages";
@@ -36,6 +37,10 @@ function App() {
 								<Route path={"/person/:personid"} element={<PersonPage />} />
 								<Route path={"/movie/:movieid"} element={<MoviePage />} />
 								<Route path={"/tv/:tvid"} element={<TvPage />} />
+								<Route
+									path={"/tv/:tv_id/season/:season_number"}
+									element={<SeasonPage />}
+								/>
 								<Route
 									path={"/user/profile/:userid"}
 									element={<ProfilePage />}

@@ -25,7 +25,7 @@ const MediaCard = ({
 	}
 
 	return (
-		<div key={id} className={"w-40 h-88 mr-5 mb-4"} dir="ltr">
+		<div key={id} className={"w-40 h-88 mx-2 mb-4"} dir="ltr">
 			<div className={"w-full"}>
 				<img
 					src={image_url}

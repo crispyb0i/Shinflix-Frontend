@@ -7,6 +7,7 @@ export { NotFound } from "./NotFound";
 export { PersonPage } from "./person/PersonPage";
 export { ProfilePage } from "./profile/ProfilePage";
 export { Register } from "./register/Register";
+export { SeasonPage } from "./season/SeasonPage";
 export { TvPage } from "./tv/TvPage";
 export { UpdateCredentials } from "./updateCredentials/UpdateCredentials";
 export { UpdateProfile } from "./updateProfile/UpdateProfile";
