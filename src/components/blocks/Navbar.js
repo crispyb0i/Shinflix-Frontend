@@ -14,8 +14,8 @@ function classNames(...classes) {
 export default function Navbar() {
 	const [navigation, setNavigation] = useState([
 		{ name: "Home", href: "/", current: false },
+		{ name: "Journal", href: "/journal", current: false },
 		// { name: "Search", href: "/search", current: false },
-		// { name: "Journal", href: "/journal", current: false },
 		// { name: "Favorites", href: "/discover", current: false },
 	]);
 

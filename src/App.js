@@ -14,6 +14,7 @@ import {
 	SeasonPage,
 	UpdateProfile,
 	UpdateCredentials,
+	JournalPage,
 } from "./components/pages";
 import { SiteSettingsProvider, ThemeProvider, AuthProvider } from "./contexts";
 import Navbar from "./components/blocks/Navbar";
@@ -37,6 +38,14 @@ function App() {
 								<Route path={"/person/:personid"} element={<PersonPage />} />
 								<Route path={"/movie/:movieid"} element={<MoviePage />} />
 								<Route path={"/tv/:tvid"} element={<TvPage />} />
+								<Route
+									path={"/journal/:media_type?/:media_id?"}
+									element={
+										<PrivateRoute>
+											<JournalPage />
+										</PrivateRoute>
+									}
+								/>
 								<Route
 									path={"/tv/:tv_id/season/:season_number"}
 									element={<SeasonPage />}

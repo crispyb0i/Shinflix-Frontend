@@ -1,5 +1,6 @@
 export { ForgotPassword } from "./forgotPassword/ForgotPassword";
 export { Home } from "./home/Home";
+export { JournalPage } from "./journal/JournalPage";
 export { Login } from "./login/Login";
 export { Logout } from "./logout/Logout";
 export { MoviePage } from "./movie/MoviePage";
