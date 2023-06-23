@@ -12,7 +12,6 @@ import {
 import { db } from "./firebase";
 
 export const addToUserFavorites = async (user_id, mediaData) => {
-	console.log(mediaData);
 	const UserRef = doc(db, "users", user_id);
 	// const favoritesRef = collection(UserRef, "favorites");
 	// console.log("FAVORITES COLLECTION", favoritesCollection.data());
@@ -45,10 +44,10 @@ export const handleFavoriteMedia = async (user_id, mediaData) => {
 
 	if (foundObject) {
 		await updateDoc(userDocRef, { favorites: updatedFavorites });
-		console.log("removed from favs");
+		console.log("removed from favorites");
 	} else {
 		await addToUserFavorites(user_id, mediaData);
-		console.log("added to favs");
+		console.log("added to favorites");
 	}
 };
 
@@ -63,23 +62,30 @@ export const checkIfDisplayNameIsUnique = async (display_name) => {
 	});
 };
 
+// Create a Firestore object when a user registers
 export const addNewUserToFirestore = async (uid, email) => {
 	return await setDoc(doc(db, "users", uid), {
 		email: email,
 		displayName: uid,
 		favorites: [],
+		followers: {
+			count: 0,
+			users: [],
+		},
+		following: {
+			count: 0,
+			users: [],
+		},
+		journalEntries: [],
 		photoURL: null,
 		uid,
 	});
 };
 
 export const updateUserDocument = async (user_id, data) => {
-	console.log("HIIIIIIIT", data);
 	const userDocRef = doc(db, "users", user_id);
-	console.log("HIT AGAIN");
 
 	if (data.name) {
-		console.log("DATA.NAME");
 		const q = query(
 			collection(db, "users"),
 			where("displayName", "==", data.displayName),
@@ -109,8 +115,24 @@ export const findUserByID = async (user_id) => {
 	if (userDoc.exists()) {
 		return userDoc.data();
 	} else {
-		console.log("User not found");
+		console.error("User not found");
 	}
+};
+
+export const findUserByUsername = async (username) => {
+	const q = query(
+		collection(db, "users"),
+		where("displayName", "==", username)
+	);
+
+	const querySnapshot = await getDocs(q);
+	const user = querySnapshot.docs.map((doc) => doc.data());
+
+	if (user.length === 0) {
+		throw new Error("Username doesn't exist");
+	}
+
+	return user[0];
 };
 
 export const getUserDocument = async (user_id) => {

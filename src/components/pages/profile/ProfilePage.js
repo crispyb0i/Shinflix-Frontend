@@ -1,5 +1,5 @@
-import React, { useContext } from "react";
-import { AuthContext } from "../../../contexts/AuthContext";
+import React, { useEffect, useState } from "react";
+// import { AuthContext } from "../../../contexts/AuthContext";
 import {
 	VerticalTimeline,
 	VerticalTimelineElement,
@@ -7,9 +7,31 @@ import {
 import "react-vertical-timeline-component/style.min.css";
 import MediaCard from "../../blocks/MediaCard";
 import { Link } from "react-router-dom";
+import { findUserByUsername } from "../../../services/firebase/firestore";
+import { useParams } from "react-router-dom";
+import { LoadingSpinner } from "../../common";
 
 export const ProfilePage = () => {
-	const { currentUser, currentUserData } = useContext(AuthContext);
+	// const { currentUser, currentUserData } = useContext(AuthContext);
+	const [userDetails, setUserDetails] = useState(null);
+	const [loading, setLoading] = useState(true);
+	const username = useParams().username;
+
+	useEffect(() => {
+		const fetchUserDetails = async () => {
+			setLoading(true);
+			try {
+				const user = await findUserByUsername(username);
+				setUserDetails(user);
+			} catch (error) {
+				console.error("error fetching user");
+			} finally {
+				setLoading(false);
+			}
+		};
+		fetchUserDetails();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 	const movieIcon = (
 		<svg
 			xmlns="http://www.w3.org/2000/svg"
@@ -45,240 +67,268 @@ export const ProfilePage = () => {
 	);
 
 	return (
-		<main className="flex flex-col flex-grow bg-black-100">
-			<section className="relative bg-blueGray-200">
-				<div className="container mx-auto px-4">
-					<div className="relative flex flex-col break-words bg-white w-full my-12 shadow-2xl rounded-lg">
-						<div className="px-6 rounded-lg">
-							<div className="flex flex-wrap pt-12 justify-center items-center">
-								<div className="lg:w-3/12 px-4 lg:order-2 flex justify-center">
-									<img
-										alt="..."
-										src={
-											currentUser.photoURL
-												? `${currentUser.photoURL}`
-												: `https://demos.creative-tim.com/notus-js/assets/img/team-2-800x800.jpg`
-										}
-										className="border-black object-cover shadow-2xl rounded-full w-48 h-48 items-center border-none max-w-150-px"
-									/>
-								</div>
-								<div className="w-full lg:w-4/12 px-4 lg:order-3 lg:text-right lg:self-center">
-									<div className="py-6 px-3 mt-6 sm:mt-0 text-center">
-										<button
-											className="mx-2 bg-pink-500 active:bg-pink-600 uppercase text-white font-bold hover:shadow-md shadow text-xs px-4 py-2 rounded outline-none focus:outline-none sm:mr-4 ease-linear transition-all duration-150"
-											type="button"
-										>
-											Connect
-										</button>
-										<button
-											className="mx-2 bg-blue-500 active:bg-blue-600 uppercase text-white font-bold hover:shadow-md shadow text-xs px-4 py-2 rounded outline-none focus:outline-none sm:mr-4 ease-linear transition-all duration-150"
-											type="button"
-										>
-											Message
-										</button>
-									</div>
-								</div>
-								<div className="w-full lg:w-4/12 px-4 lg:order-1">
-									<div className="flex justify-center py-4 lg:pt-4">
-										<div className=" w-24 p-3 text-center">
-											<span className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">
-												22
-											</span>
-											<span className="text-sm text-blueGray-400">Friends</span>
-										</div>
-										<div className=" w-24 p-3 text-center">
-											<span className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">
-												10
-											</span>
-											<span className="text-sm text-blueGray-400">Photos</span>
-										</div>
-										<div className=" w-24 lg:mr-4 p-3 text-center">
-											<span className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">
-												89
-											</span>
-											<span className="text-sm text-blueGray-400">
-												Comments
-											</span>
-										</div>
-									</div>
-								</div>
-							</div>
-							<div className="mt-4">
-								<h3 className="text-4xl font-semibold leading-normal mb-2 text-blueGray-700 mb-2 text-center ">
-									{currentUser.displayName}
-								</h3>
-							</div>
-							{currentUserData && currentUserData.favorites.length > 0 && (
-								<div>
-									<div className="mt-16">
-										<h1 className="text-2xl font-bold mb-5 ml-3">Favorites</h1>
-										<div className="flex flex-row overflow-x-auto w-full">
-											{currentUserData.favorites.map(
-												({ name, title, poster_path, media_type, id }) => (
-													<Link
-														to={`/${media_type}/${id}`}
-														key={`${id}${crypto.randomUUID()}`}
-													>
-														<MediaCard
-															title={title}
-															media_type={media_type}
-															poster_path={poster_path}
-															name={name}
-														/>
-													</Link>
-												)
-											)}
-										</div>
-									</div>
-								</div>
-							)}
-							<div className="mt-20 py-10 rounded-xl shadow-lg border-blueGray-200 bg-emerald-100">
-								<h1 className="text-3xl font-bold my-10 text-center">
-									Watch Timeline
-								</h1>
-								<VerticalTimeline>
-									<VerticalTimelineElement
-										className=""
-										contentStyle={{
-											background: "white",
-											color: "black",
-										}}
-										// contentArrowStyle={{
-										// 	// borderRight: "7px solid white",
-										// 	borderRight: "7px solid white",
-										// }}
-										date="June 2023"
-										dateClassName={""}
-										iconStyle={{
-											background: "white",
-											color: "white",
-										}}
-										icon={movieIcon}
-									>
-										<div className="flex justify-center mt-10">
-											<MediaCard
-												name={"Spider-Man: Across the Spider-Verse"}
-												poster_path="/8Vt6mWEReuy4Of61Lnj5Xj704m8.jpg"
-												release_date="June 26, 2023"
-											/>
-										</div>
-									</VerticalTimelineElement>
-									<VerticalTimelineElement
-										className=""
-										date="2010"
-										dateClassName={""}
-										iconStyle={{
-											background: "white",
-											color: "#fff",
-										}}
-										icon={movieIcon}
-									>
-										<div className="flex justify-center mt-10">
-											<MediaCard
-												name={"Spider-Man: Across the Spider-Verse"}
-												poster_path="/8Vt6mWEReuy4Of61Lnj5Xj704m8.jpg"
-												release_date="June 26, 2023"
-											/>
-										</div>
-									</VerticalTimelineElement>
-									<VerticalTimelineElement
-										className=""
-										date="2008 - 2010"
-										iconStyle={{
-											background: "white",
-											color: "#fff",
-										}}
-										icon={movieIcon}
-									>
-										<div className="flex justify-center mt-10">
-											<MediaCard
-												name={"Spider-Man: Across the Spider-Verse"}
-												poster_path="/8Vt6mWEReuy4Of61Lnj5Xj704m8.jpg"
-												release_date="June 26, 2023"
-											/>
-										</div>
-									</VerticalTimelineElement>
-									<VerticalTimelineElement
-										className=""
-										date="2006 - 2008"
-										iconStyle={{
-											background: "white",
-											color: "#fff",
-										}}
-										icon={movieIcon}
-									>
-										<div className="flex justify-center mt-10">
-											<MediaCard
-												name={"Spider-Man: Across the Spider-Verse"}
-												poster_path="/8Vt6mWEReuy4Of61Lnj5Xj704m8.jpg"
-												release_date="June 26, 2023"
-											/>
-										</div>
-									</VerticalTimelineElement>
-									<VerticalTimelineElement
-										className="vertical-timeline-element--education"
-										date="April 2013"
-										iconStyle={{
-											background: "white",
-											color: "#fff",
-										}}
-										icon={movieIcon}
-									>
-										<div className="flex justify-center mt-10">
-											<MediaCard
-												name={"Spider-Man: Across the Spider-Verse"}
-												poster_path="/8Vt6mWEReuy4Of61Lnj5Xj704m8.jpg"
-												release_date="June 26, 2023"
-											/>
-										</div>
-									</VerticalTimelineElement>
-									<VerticalTimelineElement
-										className="vertical-timeline-element--education"
-										date="November 2012"
-										iconStyle={{
-											background: "white",
-											color: "#fff",
-										}}
-										icon={movieIcon}
-									>
-										<div className="flex justify-center mt-10">
-											<MediaCard
-												name={"Spider-Man: Across the Spider-Verse"}
-												poster_path="/8Vt6mWEReuy4Of61Lnj5Xj704m8.jpg"
-												release_date="June 26, 2023"
-											/>
-										</div>
-									</VerticalTimelineElement>
-									<VerticalTimelineElement
-										className="vertical-timeline-element--education"
-										date="2002 - 2006"
-										iconStyle={{
-											background: "white",
-											color: "#fff",
-										}}
-										icon={movieIcon}
-									>
-										<div className="flex justify-center mt-10">
-											<MediaCard
-												name={"Spider-Man: Across the Spider-Verse"}
-												poster_path="/8Vt6mWEReuy4Of61Lnj5Xj704m8.jpg"
-												release_date="June 26, 2023"
-											/>
-										</div>
-									</VerticalTimelineElement>
-									<VerticalTimelineElement
-										iconStyle={{
-											background: "rgb(16, 204, 82)",
-											color: "#fff",
-										}}
-										icon={starIcon}
-									/>
-								</VerticalTimeline>
-							</div>
-						</div>
-					</div>
+		<>
+			{loading ? (
+				<div className="flex min-h-screen items-center justify-center">
+					<LoadingSpinner />
 				</div>
-			</section>
-		</main>
+			) : (
+				<>
+					{!userDetails ? (
+						<div className="flex min-h-screen items-center justify-center">
+							<h1 className="text-6xl">User doesn't exist</h1>
+						</div>
+					) : (
+						<main className="flex flex-col flex-grow bg-black-100">
+							<section className="relative bg-blueGray-200">
+								<div className="container mx-auto px-4">
+									<div className="relative flex flex-col break-words bg-white w-full my-12 shadow-2xl rounded-lg">
+										<div className="px-6 rounded-lg">
+											<div className="flex flex-wrap pt-12 justify-center items-center">
+												<div className="lg:w-3/12 px-4 lg:order-2 flex justify-center">
+													<img
+														alt="..."
+														src={
+															userDetails.photoURL
+																? `${userDetails.photoURL}`
+																: `https://demos.creative-tim.com/notus-js/assets/img/team-2-800x800.jpg`
+														}
+														className="border-black object-cover shadow-2xl rounded-full w-48 h-48 items-center border-none max-w-150-px"
+													/>
+												</div>
+												<div className="w-full lg:w-4/12 px-4 lg:order-3 lg:text-right lg:self-center">
+													<div className="py-6 px-3 mt-6 sm:mt-0 text-center">
+														<button
+															className="mx-2 bg-pink-500 active:bg-pink-600 uppercase text-white font-bold hover:shadow-md shadow text-xs px-4 py-2 rounded outline-none focus:outline-none sm:mr-4 ease-linear transition-all duration-150"
+															type="button"
+														>
+															Follow
+														</button>
+														<button
+															className="mx-2 bg-blue-500 active:bg-blue-600 uppercase text-white font-bold hover:shadow-md shadow text-xs px-4 py-2 rounded outline-none focus:outline-none sm:mr-4 ease-linear transition-all duration-150"
+															type="button"
+														>
+															Message
+														</button>
+													</div>
+												</div>
+												<div className="w-full lg:w-4/12 px-4 lg:order-1">
+													<div className="flex justify-center py-4 lg:pt-4">
+														<div className=" w-24 p-3 text-center">
+															<span className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">
+																22
+															</span>
+															<span className="text-sm text-blueGray-400">
+																Followers
+															</span>
+														</div>
+														<div className=" w-24 p-3 text-center">
+															<span className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">
+																10
+															</span>
+															<span className="text-sm text-blueGray-400">
+																Entries
+															</span>
+														</div>
+														<div className=" w-24 lg:mr-4 p-3 text-center">
+															<span className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">
+																89
+															</span>
+															<span className="text-sm text-blueGray-400">
+																Favorites
+															</span>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div className="mt-4">
+												<h3 className="text-4xl font-semibold leading-normal mb-2 text-blueGray-700 mb-2 text-center ">
+													{userDetails.displayName}
+												</h3>
+											</div>
+											{userDetails && userDetails.favorites.length > 0 && (
+												<div>
+													<div className="mt-16">
+														<h1 className="text-2xl font-bold mb-5 ml-3">
+															Favorites
+														</h1>
+														<div className="flex flex-row overflow-x-auto w-full">
+															{userDetails.favorites.map(
+																({
+																	name,
+																	title,
+																	poster_path,
+																	media_type,
+																	id,
+																}) => (
+																	<Link
+																		to={`/${media_type}/${id}`}
+																		key={`${id}${crypto.randomUUID()}`}
+																	>
+																		<MediaCard
+																			title={title}
+																			media_type={media_type}
+																			poster_path={poster_path}
+																			name={name}
+																		/>
+																	</Link>
+																)
+															)}
+														</div>
+													</div>
+												</div>
+											)}
+											<div className="mt-20 py-10 rounded-xl shadow-lg border-blueGray-200 bg-emerald-100">
+												<h1 className="text-3xl font-bold my-10 text-center">
+													Watch Timeline
+												</h1>
+												<VerticalTimeline>
+													<VerticalTimelineElement
+														className=""
+														contentStyle={{
+															background: "white",
+															color: "black",
+														}}
+														// contentArrowStyle={{
+														// 	// borderRight: "7px solid white",
+														// 	borderRight: "7px solid white",
+														// }}
+														date="June 2023"
+														dateClassName={""}
+														iconStyle={{
+															background: "white",
+															color: "white",
+														}}
+														icon={movieIcon}
+													>
+														<div className="flex justify-center mt-10">
+															<MediaCard
+																name={"Spider-Man: Across the Spider-Verse"}
+																poster_path="/8Vt6mWEReuy4Of61Lnj5Xj704m8.jpg"
+																release_date="June 26, 2023"
+															/>
+														</div>
+													</VerticalTimelineElement>
+													<VerticalTimelineElement
+														className=""
+														date="2010"
+														dateClassName={""}
+														iconStyle={{
+															background: "white",
+															color: "#fff",
+														}}
+														icon={movieIcon}
+													>
+														<div className="flex justify-center mt-10">
+															<MediaCard
+																name={"Spider-Man: Across the Spider-Verse"}
+																poster_path="/8Vt6mWEReuy4Of61Lnj5Xj704m8.jpg"
+																release_date="June 26, 2023"
+															/>
+														</div>
+													</VerticalTimelineElement>
+													<VerticalTimelineElement
+														className=""
+														date="2008 - 2010"
+														iconStyle={{
+															background: "white",
+															color: "#fff",
+														}}
+														icon={movieIcon}
+													>
+														<div className="flex justify-center mt-10">
+															<MediaCard
+																name={"Spider-Man: Across the Spider-Verse"}
+																poster_path="/8Vt6mWEReuy4Of61Lnj5Xj704m8.jpg"
+																release_date="June 26, 2023"
+															/>
+														</div>
+													</VerticalTimelineElement>
+													<VerticalTimelineElement
+														className=""
+														date="2006 - 2008"
+														iconStyle={{
+															background: "white",
+															color: "#fff",
+														}}
+														icon={movieIcon}
+													>
+														<div className="flex justify-center mt-10">
+															<MediaCard
+																name={"Spider-Man: Across the Spider-Verse"}
+																poster_path="/8Vt6mWEReuy4Of61Lnj5Xj704m8.jpg"
+																release_date="June 26, 2023"
+															/>
+														</div>
+													</VerticalTimelineElement>
+													<VerticalTimelineElement
+														className="vertical-timeline-element--education"
+														date="April 2013"
+														iconStyle={{
+															background: "white",
+															color: "#fff",
+														}}
+														icon={movieIcon}
+													>
+														<div className="flex justify-center mt-10">
+															<MediaCard
+																name={"Spider-Man: Across the Spider-Verse"}
+																poster_path="/8Vt6mWEReuy4Of61Lnj5Xj704m8.jpg"
+																release_date="June 26, 2023"
+															/>
+														</div>
+													</VerticalTimelineElement>
+													<VerticalTimelineElement
+														className="vertical-timeline-element--education"
+														date="November 2012"
+														iconStyle={{
+															background: "white",
+															color: "#fff",
+														}}
+														icon={movieIcon}
+													>
+														<div className="flex justify-center mt-10">
+															<MediaCard
+																name={"Spider-Man: Across the Spider-Verse"}
+																poster_path="/8Vt6mWEReuy4Of61Lnj5Xj704m8.jpg"
+																release_date="June 26, 2023"
+															/>
+														</div>
+													</VerticalTimelineElement>
+													<VerticalTimelineElement
+														className="vertical-timeline-element--education"
+														date="2002 - 2006"
+														iconStyle={{
+															background: "white",
+															color: "#fff",
+														}}
+														icon={movieIcon}
+													>
+														<div className="flex justify-center mt-10">
+															<MediaCard
+																name={"Spider-Man: Across the Spider-Verse"}
+																poster_path="/8Vt6mWEReuy4Of61Lnj5Xj704m8.jpg"
+																release_date="June 26, 2023"
+															/>
+														</div>
+													</VerticalTimelineElement>
+													<VerticalTimelineElement
+														iconStyle={{
+															background: "rgb(16, 204, 82)",
+															color: "#fff",
+														}}
+														icon={starIcon}
+													/>
+												</VerticalTimeline>
+											</div>
+										</div>
+									</div>
+								</div>
+							</section>
+						</main>
+					)}
+				</>
+			)}
+		</>
 	);
 };

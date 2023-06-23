@@ -63,8 +63,6 @@ export const MoviePage = () => {
 		fetchMovieData();
 	}, [movieID]);
 
-	console.log(movieCredits);
-
 	return (
 		<>
 			{loading ? (
@@ -165,6 +163,7 @@ export const MoviePage = () => {
 										{movieImages.backdrops.map((image) => (
 											<Link
 												to={`${process.env.REACT_APP_TMDB_IMAGE_URL}${image.file_path}`}
+												key={image.file_path}
 											>
 												<img
 													className="w-96"
@@ -182,6 +181,7 @@ export const MoviePage = () => {
 									{movieImages.posters.map((image) => (
 										<Link
 											to={`${process.env.REACT_APP_TMDB_IMAGE_URL}${image.file_path}`}
+											key={image.file_path}
 										>
 											<img
 												className="w-60"

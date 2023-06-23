@@ -42,7 +42,7 @@ function App() {
 									element={<SeasonPage />}
 								/>
 								<Route
-									path={"/user/profile/:userid"}
+									path={"/user/profile/:username"}
 									element={<ProfilePage />}
 								/>
 

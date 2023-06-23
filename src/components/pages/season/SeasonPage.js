@@ -8,7 +8,8 @@ import {
 
 export const SeasonPage = () => {
 	const { tv_id, season_number } = useParams();
-	console.log(tv_id, season_number);
+	// console.log(tv_id, season_number);
+	// eslint-disable-next-line no-unused-vars
 	const [seasonDetails, setSeasonDetails] = useState(null);
 
 	useEffect(() => {
@@ -19,7 +20,7 @@ export const SeasonPage = () => {
 		fetchSeasonInfo();
 	}, [season_number, tv_id]);
 
-	console.log(seasonDetails);
+	// console.log(seasonDetails);
 
 	return <h1>SEASON PAGE</h1>;
 };

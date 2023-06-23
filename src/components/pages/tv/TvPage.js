@@ -92,8 +92,8 @@ export const TvPage = () => {
 								{tagline && <p className={"py-3 mb-3"}>{tagline}</p>}
 								{genres && (
 									<div className={"mb-3 italic"}>
-										{genres.map((genre, i) => (
-											<span key={i}>{genre.name} </span>
+										{genres.map((genre) => (
+											<span key={genre.name}>{genre.name} </span>
 										))}
 									</div>
 								)}
@@ -116,8 +116,8 @@ export const TvPage = () => {
 						{tagline && <p className={"py-3 mb-3"}>{tagline}</p>}
 						{genres && (
 							<div className={"mb-3 italic"}>
-								{genres.map((genre, i) => (
-									<span key={i}>{genre.name} </span>
+								{genres.map((genre) => (
+									<span key={genre.name}>{genre.name} </span>
 								))}
 							</div>
 						)}
@@ -188,6 +188,7 @@ export const TvPage = () => {
 										{tvImages.backdrops.map((image) => (
 											<Link
 												to={`${process.env.REACT_APP_TMDB_IMAGE_URL}${image.file_path}`}
+												key={image.file_path}
 											>
 												<img
 													className="w-96"
@@ -205,6 +206,7 @@ export const TvPage = () => {
 									{tvImages.posters.map((image) => (
 										<Link
 											to={`${process.env.REACT_APP_TMDB_IMAGE_URL}${image.file_path}`}
+											key={image.file_path}
 										>
 											<img
 												className="w-60"
