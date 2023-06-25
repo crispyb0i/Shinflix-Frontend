@@ -3,15 +3,17 @@ import {
 	fetchMovieCredits,
 	fetchMovieDetails,
 	fetchMovieImages,
+	fetchMovieVideos,
 } from "./movies";
 import { multiSearch } from "./multi";
 import {
-	fetchShowCredits,
-	fetchShowDetails,
-	fetchShowImages,
 	fetchSeasonCredits,
 	fetchSeasonDetails,
 	fetchSeasonImages,
+	fetchShowCredits,
+	fetchShowDetails,
+	fetchShowImages,
+	fetchShowVideos,
 } from "./shows";
 import {
 	fetchPersonCombinedCredits,
@@ -23,6 +25,7 @@ export {
 	fetchMovieCredits,
 	fetchMovieDetails,
 	fetchMovieImages,
+	fetchMovieVideos,
 	fetchPersonCombinedCredits,
 	fetchPersonDetails,
 	fetchPersonImages,
@@ -33,6 +36,7 @@ export {
 	fetchShowCredits,
 	fetchShowDetails,
 	fetchShowImages,
+	fetchShowVideos,
 	fetchTrendingAllByDay,
 	fetchTrendingAllByWeek,
 	multiSearch,

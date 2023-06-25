@@ -4,8 +4,9 @@ import {
 	fetchMovieDetails,
 	fetchMovieCredits,
 	fetchMovieImages,
+	fetchMovieVideos,
 } from "../../../api/tmdb/index";
-import { LoadingSpinner } from "../../common";
+import { LoadingSpinner, VideoModal } from "../../common";
 import { Link } from "react-router-dom";
 import MediaCard from "../../blocks/MediaCard";
 import { MediaButtons } from "../../blocks/MediaButtons";
@@ -14,6 +15,7 @@ export const MoviePage = () => {
 	const [movieData, setMovieData] = useState(null);
 	const [movieCredits, setMovieCredits] = useState(null);
 	const [movieImages, setMovieImages] = useState(null);
+	const [movieVideos, setMovieVideos] = useState(null);
 	const [loading, setLoading] = useState(false);
 	const movieID = useParams().movieid;
 	const {
@@ -44,6 +46,8 @@ export const MoviePage = () => {
 		// vote_count,
 	} = movieData || {};
 
+	console.log(movieVideos);
+
 	useEffect(() => {
 		const fetchMovieData = async () => {
 			setLoading(true);
@@ -54,6 +58,8 @@ export const MoviePage = () => {
 				setMovieCredits(creditsResponse.cast);
 				const movieImages = await fetchMovieImages(movieID);
 				setMovieImages(movieImages);
+				const movieVideos = await fetchMovieVideos(movieID);
+				setMovieVideos(movieVideos.results);
 			} catch (error) {
 				console.error(error);
 			} finally {
@@ -151,6 +157,18 @@ export const MoviePage = () => {
 										</Link>
 									))}
 								</div>
+							</div>
+						</div>
+					)}
+					{movieVideos && movieVideos.length > 0 && (
+						<div className="flex flex-col m-auto pt-10 px-5">
+							<h1 className="text-3xl mb-10 font-bold">Videos</h1>
+							<div className="flex flex-row overflow-x-auto">
+								{movieVideos.map((video) => (
+									<div key={video.key} className="mr-4">
+										<VideoModal videoSrc={video.key} />
+									</div>
+								))}
 							</div>
 						</div>
 					)}

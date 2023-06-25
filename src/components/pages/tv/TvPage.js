@@ -4,8 +4,9 @@ import {
 	fetchShowDetails,
 	fetchShowImages,
 	fetchShowCredits,
+	fetchShowVideos,
 } from "../../../api/tmdb";
-import { LoadingSpinner } from "../../common";
+import { LoadingSpinner, VideoModal } from "../../common";
 import MediaCard from "../../blocks/MediaCard";
 import { MediaButtons } from "../../blocks/MediaButtons";
 
@@ -15,6 +16,7 @@ export const TvPage = () => {
 	const [tvData, setTvData] = useState(null);
 	const [tvImages, setTvImages] = useState(null);
 	const [tvCredits, setTvCredits] = useState(null);
+	const [tvVideos, setTvVideos] = useState(null);
 	const {
 		// adult,
 		backdrop_path,
@@ -53,6 +55,8 @@ export const TvPage = () => {
 				setTvCredits(creditsResponse.cast);
 				const showImages = await fetchShowImages(showID);
 				setTvImages(showImages);
+				const showVideos = await fetchShowVideos(showID);
+				setTvVideos(showVideos.results);
 			} catch (error) {
 				console.error(error);
 			} finally {
@@ -154,6 +158,18 @@ export const TvPage = () => {
 										)
 									)}
 								</div>
+							</div>
+						</div>
+					)}
+					{tvVideos && tvVideos.length > 0 && (
+						<div className="flex flex-col m-auto pt-10 px-5">
+							<h1 className="text-3xl mb-10 font-bold">Videos</h1>
+							<div className="flex flex-row overflow-x-auto">
+								{tvVideos.map((video) => (
+									<div key={video.key} className="mr-4">
+										<VideoModal videoSrc={video.key} />
+									</div>
+								))}
 							</div>
 						</div>
 					)}

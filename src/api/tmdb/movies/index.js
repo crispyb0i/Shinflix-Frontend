@@ -44,3 +44,16 @@ export const fetchMovieImages = async (movie_id) => {
 		throw new Error("Failed to perform image search");
 	}
 };
+
+export const fetchMovieVideos = async (movie_id) => {
+	try {
+		const response = await fetch(
+			`https://api.themoviedb.org/3/movie/${movie_id}/videos`,
+			tmdbApiOptions
+		);
+		return response.json();
+	} catch (err) {
+		console.error(err);
+		throw new Error("Failed to perform video search");
+	}
+};
