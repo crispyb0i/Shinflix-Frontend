@@ -1,11 +1,19 @@
 import { useState } from "react";
+import { format } from "date-fns";
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/dist/style.css";
 
 export const JournalPage = () => {
 	const [watchDate, setWatchDate] = useState(null);
+	const [inputs, setInputs] = useState({});
+	const [movie, setMovie] = useState(null);
 
-	console.log(watchDate);
+	const handleChange = (event) => {
+		setInputs({
+			...inputs,
+			[event.target.name]: event.target.value,
+		});
+	};
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
@@ -20,6 +28,9 @@ export const JournalPage = () => {
 			return;
 		}
 
+		let currentInputs = inputs;
+
+		setInputs({ ...currentInputs, date });
 		setWatchDate(date);
 	};
 
@@ -27,18 +38,24 @@ export const JournalPage = () => {
 		return day > new Date();
 	};
 
+	let footer = <p className="mt-5">Please pick a day.</p>;
+	if (watchDate) {
+		footer = <p className="mt-5">Watched on {format(watchDate, "PP")}.</p>;
+	}
+
+	console.log(inputs);
 	return (
 		<form
-			className={"flex min-h-screen items-center justify-center"}
+			className={"flex items-center justify-center"}
 			onSubmit={handleSubmit}
 		>
-			<div className="space-y-12">
+			<div className="my-28">
 				<div className="border-b border-gray-900/10 pb-12">
-					<h2 className="text-base font-semibold leading-7 text-gray-900">
+					<h2 className="text-base font-semibold leading-7 font-2xl text-gray-900">
 						Journal
 					</h2>
 					<p className="mt-1 text-sm leading-6 text-gray-600">
-						Create your journal entry
+						Create a journal entry
 					</p>
 
 					<div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
@@ -57,6 +74,7 @@ export const JournalPage = () => {
 										id="media_title"
 										autoComplete="media_title"
 										className="block flex-1 border-0 bg-transparent py-1.5 pl-3 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+										onChange={handleChange}
 									/>
 								</div>
 							</div>
@@ -75,7 +93,9 @@ export const JournalPage = () => {
 									name="blurb"
 									rows="3"
 									className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-								></textarea>
+									onChange={handleChange}
+									autoComplete={"off"}
+								/>
 							</div>
 							<p className="mt-3 text-sm leading-6 text-gray-600">
 								Write your own personal review or any thoughts or feelings you
@@ -84,7 +104,7 @@ export const JournalPage = () => {
 						</div>
 						<div className="sm:col-span-3">
 							<label
-								htmlFor="country"
+								htmlFor="rating"
 								className="block text-sm font-medium leading-6 text-gray-900"
 							>
 								Rating
@@ -95,6 +115,7 @@ export const JournalPage = () => {
 									name="rating"
 									autoComplete="rating-name"
 									className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
+									onChange={handleChange}
 								>
 									<option></option>
 									<option>⭐</option>
@@ -120,6 +141,7 @@ export const JournalPage = () => {
 									modifiersStyles={{
 										disabled: { color: "fff" },
 									}}
+									footer={footer}
 								/>
 							</div>
 						</div>
@@ -157,3 +179,6 @@ export const JournalPage = () => {
 
 // Please note that the actual values in the console log may vary
 // depending on the specific timestamp and your timezone.
+
+// when rendering, use whiteSpace: "pre-wrap" to maintain spacing and formatting.
+// <p style={{ whiteSpace: "pre-wrap" }}>{inputs.blurb}</p>
