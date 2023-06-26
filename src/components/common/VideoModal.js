@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 
 export const VideoModal = ({ videoSrc }) => {
 	const [modalVisible, setModalVisible] = useState(false);

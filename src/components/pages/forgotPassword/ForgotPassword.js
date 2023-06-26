@@ -1,8 +1,8 @@
-import React, { useContext, useState } from "react";
+import { AuthContext } from "../../../contexts/AuthContext";
 import { Link } from "react-router-dom";
 import { Modal } from "../../common";
-import { AuthContext } from "../../../contexts/AuthContext";
 import { Navigate } from "react-router-dom";
+import { useContext, useState } from "react";
 
 export const ForgotPassword = () => {
 	const { currentUser, resetPassword } = useContext(AuthContext);

@@ -1,7 +1,7 @@
-import React, { useState, useContext } from "react";
+import { AuthContext } from "../../../contexts/AuthContext";
 import { Link, Navigate } from "react-router-dom";
 import { Modal } from "../../common";
-import { AuthContext } from "../../../contexts/AuthContext";
+import { useState, useContext } from "react";
 
 const RegisterForm = () => {
 	const { addNewUser, currentUser, signup, updateUserDisplayName } =

@@ -1,7 +1,7 @@
-import React, { useState, useContext } from "react";
-import { Navigate } from "react-router-dom";
-import { LoadingSpinner, Modal } from "../../common";
 import { AuthContext } from "../../../contexts/AuthContext";
+import { LoadingSpinner, Modal } from "../../common";
+import { Navigate } from "react-router-dom";
+import { useState, useContext } from "react";
 
 export const UpdateCredentials = () => {
 	const { currentUser, updateUserPassword, updateUserEmail } =

@@ -1,15 +1,15 @@
 import { useState, useEffect } from "react";
 import { useParams } from "react-router";
+import { LoadingSpinner, VideoModal } from "../../common";
+import { Link } from "react-router-dom";
+import { MediaCard } from "../../blocks/MediaCard";
+import { MediaButtons } from "../../blocks/MediaButtons";
 import {
 	fetchMovieDetails,
 	fetchMovieCredits,
 	fetchMovieImages,
 	fetchMovieVideos,
 } from "../../../api/tmdb/index";
-import { LoadingSpinner, VideoModal } from "../../common";
-import { Link } from "react-router-dom";
-import MediaCard from "../../blocks/MediaCard";
-import { MediaButtons } from "../../blocks/MediaButtons";
 
 export const MoviePage = () => {
 	const [movieData, setMovieData] = useState(null);
@@ -19,31 +19,13 @@ export const MoviePage = () => {
 	const [loading, setLoading] = useState(false);
 	const movieID = useParams().movieid;
 	const {
-		// adult,
 		backdrop_path,
-		// belongs_to_collection,
-		// budget,
 		genres,
-		// homepage,
-		// id,
-		// imdb_id,
-		// original_language,
-		// original_title,
 		overview,
-		// popularity,
 		poster_path,
-		// production_companies,
-		// production_countries,
 		release_date,
-		// revenue,
-		// runtime,
-		// spoken_languages,
-		// status,
 		tagline,
 		title,
-		// video,
-		// vote_average,
-		// vote_count,
 	} = movieData || {};
 
 	useEffect(() => {
@@ -221,3 +203,22 @@ export const MoviePage = () => {
 		</>
 	);
 };
+
+// adult,
+// belongs_to_collection,
+// budget,
+// homepage,
+// id,
+// imdb_id,
+// original_language,
+// original_title,
+// popularity,
+// production_companies,
+// production_countries,
+// revenue,
+// runtime,
+// spoken_languages,
+// status,
+// video,
+// vote_average,
+// vote_count,

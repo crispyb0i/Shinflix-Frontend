@@ -1,18 +1,16 @@
-import React, { useEffect, useState } from "react";
-// import { AuthContext } from "../../../contexts/AuthContext";
+import { findUserByUsername } from "../../../services/firebase/firestore";
+import { Link } from "react-router-dom";
+import { LoadingSpinner } from "../../common";
+import { MediaCard } from "../../blocks/MediaCard";
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import {
 	VerticalTimeline,
 	VerticalTimelineElement,
 } from "react-vertical-timeline-component";
 import "react-vertical-timeline-component/style.min.css";
-import MediaCard from "../../blocks/MediaCard";
-import { Link } from "react-router-dom";
-import { findUserByUsername } from "../../../services/firebase/firestore";
-import { useParams } from "react-router-dom";
-import { LoadingSpinner } from "../../common";
 
 export const ProfilePage = () => {
-	// const { currentUser, currentUserData } = useContext(AuthContext);
 	const [userDetails, setUserDetails] = useState(null);
 	const [loading, setLoading] = useState(true);
 	const username = useParams().username;
@@ -189,10 +187,6 @@ export const ProfilePage = () => {
 															background: "white",
 															color: "black",
 														}}
-														// contentArrowStyle={{
-														// 	// borderRight: "7px solid white",
-														// 	borderRight: "7px solid white",
-														// }}
 														date="June 2023"
 														dateClassName={""}
 														iconStyle={{

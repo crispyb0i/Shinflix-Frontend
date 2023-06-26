@@ -1,7 +1,7 @@
-import React, { useContext, useState } from "react";
+import { AuthContext } from "../../../contexts/AuthContext";
 import { Link, Navigate } from "react-router-dom";
 import { Modal } from "../../common";
-import { AuthContext } from "../../../contexts/AuthContext";
+import { useContext, useState } from "react";
 
 const LoginForm = () => {
 	const { login, currentUser } = useContext(AuthContext);

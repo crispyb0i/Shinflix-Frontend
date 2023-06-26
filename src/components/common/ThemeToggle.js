@@ -1,4 +1,4 @@
-import React from "react";
+import { useContext } from "react";
 import { ThemeContext } from "../../contexts";
 
 /*
@@ -9,7 +9,7 @@ import { ThemeContext } from "../../contexts";
  * */
 
 export const ThemeToggle = () => {
-	const { theme, setTheme } = React.useContext(ThemeContext);
+	const { theme, setTheme } = useContext(ThemeContext);
 
 	return (
 		<div

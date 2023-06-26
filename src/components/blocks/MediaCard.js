@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const MediaCard = ({
+export const MediaCard = ({
 	id,
 	media_type,
 	poster_path,
@@ -20,6 +20,7 @@ const MediaCard = ({
 	}`;
 	if (imageError) {
 		// Set a default image URL when the original image fails to load
+		// TODO: Upload a default image on Fire Storage and use that image link
 		image_url =
 			"https://moviereelist.com/wp-content/uploads/2019/07/poster-placeholder.jpg";
 	}
@@ -44,5 +45,3 @@ const MediaCard = ({
 		</div>
 	);
 };
-
-export default MediaCard;

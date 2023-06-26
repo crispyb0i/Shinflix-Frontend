@@ -1,9 +1,9 @@
-import { useState, useEffect } from "react";
-import { ShinflixLogo } from "../../../../src/assets/images";
-import { multiSearch, fetchTrendingAllByDay } from "../../../api/tmdb/index";
-import MediaCard from "../../blocks/MediaCard";
 import { Link } from "react-router-dom";
 import { LoadingSpinner } from "../../common";
+import { MediaCard } from "../../blocks/MediaCard";
+import { fetchTrendingAllByDay, multiSearch } from "../../../api/tmdb/index";
+import { ShinflixLogo } from "../../../../src/assets/images";
+import { useState, useEffect } from "react";
 
 export const Home = () => {
 	const [searchQuery, setSearchQuery] = useState("");
@@ -33,7 +33,7 @@ export const Home = () => {
 		setLoading(true);
 		try {
 			const response = await multiSearch(searchQuery, false);
-			const results = response && response.results; // Check if response is defined before accessing the results property
+			const results = response && response.results;
 			setSearchResults(results);
 			setLoading(false);
 		} catch (error) {

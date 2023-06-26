@@ -1,14 +1,14 @@
-import { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
+import { LoadingSpinner, VideoModal } from "../../common";
+import { MediaButtons } from "../../blocks/MediaButtons";
+import { MediaCard } from "../../blocks/MediaCard";
+import { useState, useEffect } from "react";
 import {
 	fetchShowDetails,
 	fetchShowImages,
 	fetchShowCredits,
 	fetchShowVideos,
 } from "../../../api/tmdb";
-import { LoadingSpinner, VideoModal } from "../../common";
-import MediaCard from "../../blocks/MediaCard";
-import { MediaButtons } from "../../blocks/MediaButtons";
 
 export const TvPage = () => {
 	const showID = useParams().tvid;
@@ -18,31 +18,15 @@ export const TvPage = () => {
 	const [tvCredits, setTvCredits] = useState(null);
 	const [tvVideos, setTvVideos] = useState(null);
 	const {
-		// adult,
 		backdrop_path,
-		// first_air_date,
 		genres,
-		// homepage,
 		id,
 		name,
 		seasons,
-		// original_language,
-		// original_title,
 		overview,
-		// popularity,
 		poster_path,
-		// production_companies,
-		// production_countries,
 		release_date,
-		// revenue,
-		// runtime,
-		// spoken_languages,
-		// status,
 		tagline,
-		// title,
-		// video,
-		// vote_average,
-		// vote_count,
 	} = tvData || {};
 
 	useEffect(() => {
@@ -246,3 +230,20 @@ export const TvPage = () => {
 		</>
 	);
 };
+
+// adult,
+// first_air_date,
+// homepage,
+// original_language,
+// original_title,
+// popularity,
+// production_companies,
+// production_countries,
+// revenue,
+// runtime,
+// spoken_languages,
+// status,
+// title,
+// video,
+// vote_average,
+// vote_count,

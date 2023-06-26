@@ -1,3 +1,6 @@
+import { Link } from "react-router-dom";
+import { LoadingSpinner } from "../../common";
+import { MediaCard } from "../../blocks/MediaCard";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import {
@@ -6,9 +9,6 @@ import {
 	fetchPersonCombinedCredits,
 	// fetchPersonImages,
 } from "../../../api/tmdb";
-import MediaCard from "../../blocks/MediaCard";
-import { Link } from "react-router-dom";
-import { LoadingSpinner } from "../../common";
 
 export const PersonPage = () => {
 	const personID = useParams().personid;
