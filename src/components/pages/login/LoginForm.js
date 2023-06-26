@@ -53,8 +53,7 @@ const LoginForm = () => {
 			<Modal modal={modal} closeModal={closeModal} isOpen={isOpen}>
 				{status}
 			</Modal>
-
-			<div>
+			<div className="login-wrapper rounded-2xl px-8 md:px-16 pt-14 mt-6">
 				<h1
 					className={
 						"font-thin text-3xl text-center mb-6 flex items-end justify-center items-center"

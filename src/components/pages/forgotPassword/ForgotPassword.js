@@ -2,9 +2,10 @@ import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { Modal } from "../../common";
 import { AuthContext } from "../../../contexts/AuthContext";
+import { Navigate } from "react-router-dom";
 
 export const ForgotPassword = () => {
-	const { resetPassword } = useContext(AuthContext);
+	const { currentUser, resetPassword } = useContext(AuthContext);
 	// const [login, setLogin] = useState(false);
 	const [inputs, setInputs] = useState({
 		email: "",
@@ -59,62 +60,64 @@ export const ForgotPassword = () => {
 		}
 	};
 
-	return (
+	return currentUser ? (
+		<Navigate to={"/"} />
+	) : (
 		<>
-			<Modal modal={modal} closeModal={closeModal} isOpen={isOpen}>
-				{status.error}
-			</Modal>
-			<div className="login-wrapper rounded-2xl px-8 md:px-16 pt-14 mt-6">
-				<h1
-					className={
-						"font-thin text-3xl text-center mb-6 flex items-end justify-center items-center"
-					}
-				>
-					<span className={"font-bold pr-2 mr-2 border-gray-500 text-4xl"}>
-						Reset Password
-					</span>
-				</h1>
-				<form onSubmit={handleSubmit}>
-					<div className={"my-3"}>
-						<label className={"text-sm mb-1 inline-block"}>Email</label>
-						<input
-							type="email"
-							className={
-								"p-2 rounded-lg w-full border-2 focus:border-primary hover:border-gray-400 outline-none"
-							}
-							placeholder={"Email"}
-							name={"email"}
-							onChange={handleChange}
-							autoComplete={"off"}
-						/>
-					</div>
-					<div className={"flex justify-end mt-6"}>
-						<button
-							onSubmit={handleSubmit}
-							className="flex-shrink-0 bg-blue-500 h-12 hover:bg-blue-700 border-black-500 hover:border-black-700 border-1 text-white py-3 px-3 rounded-lg"
-							type="submit"
-						>
-							Reset Password
-						</button>
-					</div>
-					<div
+			<div
+				className={
+					"flex flex-grow items-center justify-center flex-col transition-all"
+				}
+			>
+				<Modal modal={modal} closeModal={closeModal} isOpen={isOpen}>
+					{status.error}
+				</Modal>
+				<div className="login-wrapper rounded-2xl px-8 md:px-16 pt-14 mt-6">
+					<h1
 						className={
-							"login-wrapper text-black rounded-2xl px-8 py-6 mt-6 " +
-							(status.type !== "" ? "bg-" + status.type : "")
+							"font-thin text-3xl text-center mb-6 flex items-end justify-center items-center"
 						}
 					>
-						{status.error.message}
+						<span className={"font-bold pr-2 mr-2 border-gray-500 text-4xl"}>
+							Reset Password
+						</span>
+					</h1>
+					<form onSubmit={handleSubmit}>
+						<div className={"my-3"}>
+							<label className={"text-sm mb-1 inline-block"}>Email</label>
+							<input
+								type="email"
+								className={
+									"p-2 rounded-lg w-full border-2 focus:border-primary hover:border-gray-400 outline-none"
+								}
+								placeholder={"Email"}
+								name={"email"}
+								onChange={handleChange}
+								autoComplete={"off"}
+							/>
+						</div>
+						<div className={"flex justify-end mt-6"}>
+							<button
+								onSubmit={handleSubmit}
+								className={
+									"py-3 px-6 w-full rounded bg-gray-500 hover:bg-gray-800 text-white rounded-lg"
+								}
+								type="submit"
+							>
+								Reset Password
+							</button>
+						</div>
+					</form>
+					<div className="flex w-full justify-center text-blue-600 mt-6">
+						<Link to="/login">Login</Link>
 					</div>
-				</form>
-				<div className="flex w-full justify-center text-blue-600 mt-6">
-					<Link to="/login">Login</Link>
+					<p className={"text-center mt-3 text-sm mb-8"}>
+						Don't have an account?{" "}
+						<Link className={"font-bold hover:text-black"} to={"/register"}>
+							Register
+						</Link>
+					</p>
 				</div>
-				<p className={"text-center mt-3 text-sm mb-8"}>
-					Don't have an account?{" "}
-					<Link className={"font-bold hover:text-black"} to={"/register"}>
-						Register
-					</Link>
-				</p>
 			</div>
 		</>
 	);
