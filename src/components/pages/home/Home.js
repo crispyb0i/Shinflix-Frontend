@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { LoadingSpinner } from "../../common";
+import { LoadingSpinner } from "../../utils";
 import { MediaCard } from "../../blocks/MediaCard";
 import { fetchTrendingAllByDay, multiSearch } from "../../../api/tmdb/index";
 import { ShinflixLogo } from "../../../../src/assets/images";

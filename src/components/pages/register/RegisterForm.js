@@ -1,6 +1,6 @@
 import { AuthContext } from "../../../contexts/AuthContext";
 import { Link, Navigate } from "react-router-dom";
-import { Modal } from "../../common";
+import { Modal } from "../../utils";
 import { useState, useContext } from "react";
 
 const RegisterForm = () => {

@@ -3,7 +3,7 @@ import { uploadFile } from "../../../services/firebase/storage";
 import { UserCircleIcon } from "@heroicons/react/24/solid";
 import { AuthContext } from "../../../contexts/AuthContext";
 import { updateUserDocument } from "../../../services/firebase/firestore";
-import { Modal } from "../../common";
+import { Modal } from "../../utils";
 
 export const UpdateProfile = () => {
 	const {

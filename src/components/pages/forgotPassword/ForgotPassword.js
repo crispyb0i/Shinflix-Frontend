@@ -1,6 +1,6 @@
 import { AuthContext } from "../../../contexts/AuthContext";
 import { Link } from "react-router-dom";
-import { Modal } from "../../common";
+import { Modal } from "../../utils";
 import { Navigate } from "react-router-dom";
 import { useContext, useState } from "react";
 

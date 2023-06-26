@@ -1,5 +1,5 @@
 import { Link, useParams } from "react-router-dom";
-import { LoadingSpinner, VideoModal } from "../../common";
+import { LoadingSpinner, VideoModal } from "../../utils";
 import { MediaButtons } from "../../blocks/MediaButtons";
 import { MediaCard } from "../../blocks/MediaCard";
 import { useState, useEffect } from "react";

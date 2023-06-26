@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { LoadingSpinner } from "../../common";
+import { LoadingSpinner } from "../../utils";
 import { MediaCard } from "../../blocks/MediaCard";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";

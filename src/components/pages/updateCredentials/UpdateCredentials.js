@@ -1,5 +1,5 @@
 import { AuthContext } from "../../../contexts/AuthContext";
-import { LoadingSpinner, Modal } from "../../common";
+import { LoadingSpinner, Modal } from "../../utils";
 import { Navigate } from "react-router-dom";
 import { useState, useContext } from "react";
 

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { formatDate } from "../utils";
 
 export const MediaCard = ({
 	id,
@@ -10,6 +11,8 @@ export const MediaCard = ({
 	name,
 }) => {
 	const [imageError, setImageError] = useState(false);
+
+	const formattedDate = formatDate(release_date) || null;
 
 	const handleImageError = () => {
 		setImageError(true);
@@ -40,7 +43,7 @@ export const MediaCard = ({
 				<h1 className="font-bold text-sm max-h-10 overflow-hidden">
 					{title || name}
 				</h1>
-				<p className="mt-1 text-sm font-light">{release_date}</p>
+				<p className="mt-1 text-sm font-light">{formattedDate}</p>
 			</div>
 		</div>
 	);
