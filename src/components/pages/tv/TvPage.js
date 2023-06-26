@@ -74,7 +74,7 @@ export const TvPage = () => {
 				</div>
 			) : (
 				<div>
-					<div className={"relative h-128  border-b-2 border-#726a5c"}>
+					<div className={"relative h-128 border-b-2 border-#726a5c"}>
 						<div
 							className="absolute inset-0 bg-cover bg-center from-pink-500 hover:to-yellow-500"
 							style={{
@@ -85,7 +85,7 @@ export const TvPage = () => {
 								zIndex: "-9999",
 							}}
 						></div>
-						<div className={"flex p-20 justify-center"}>
+						<div className={"flex p-20 justify-center items-center"}>
 							<img
 								src={`${process.env.REACT_APP_TMDB_IMAGE_URL}${poster_path}`}
 								alt={`${name} backdrop`}

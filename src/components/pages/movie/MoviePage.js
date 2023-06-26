@@ -46,8 +46,6 @@ export const MoviePage = () => {
 		// vote_count,
 	} = movieData || {};
 
-	console.log(movieVideos);
-
 	useEffect(() => {
 		const fetchMovieData = async () => {
 			setLoading(true);
@@ -69,6 +67,7 @@ export const MoviePage = () => {
 		fetchMovieData();
 	}, [movieID]);
 
+	console.log(movieData);
 	return (
 		<>
 			{loading ? (
@@ -77,7 +76,7 @@ export const MoviePage = () => {
 				</div>
 			) : (
 				<div>
-					<div className={"relative h-128 border-b-2 border-#726a5c"}>
+					<div className={"relative border-b-2 border-#726a5c"}>
 						<div
 							className="absolute inset-0 bg-cover bg-center from-pink-500 hover:to-yellow-500"
 							style={{
@@ -88,11 +87,11 @@ export const MoviePage = () => {
 								zIndex: "-9999",
 							}}
 						></div>
-						<div className={"flex p-20 justify-center"}>
+						<div className={"flex p-20 justify-center items-center"}>
 							<img
 								src={`${process.env.REACT_APP_TMDB_IMAGE_URL}${poster_path}`}
 								alt={`${title} backdrop`}
-								className={"flex-none w-72 h-108 rounded-lg shadow-lg"}
+								className={"flex-none w-72 rounded-lg shadow-lg"}
 							/>
 							<div className="text-white-700 hidden md:block ml-20">
 								<h1 className={"text-5xl font-bold"}>{title}</h1>
@@ -138,7 +137,7 @@ export const MoviePage = () => {
 						)}
 
 						<p>{overview}</p>
-						<MediaButtons />
+						<MediaButtons mediaData={movieData} />
 					</div>
 					{/* CREDITS */}
 					{movieCredits && movieCredits.length > 0 && (
