@@ -43,7 +43,6 @@ export const JournalPage = () => {
 		footer = <p className="mt-5">Watched on {format(watchDate, "PP")}.</p>;
 	}
 
-	console.log(inputs);
 	return (
 		<form
 			className={"flex items-center justify-center"}

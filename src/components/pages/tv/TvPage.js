@@ -179,9 +179,11 @@ export const TvPage = () => {
 								<h1 className="text-3xl mb-10 font-bold">Seasons</h1>
 								<div className="flex flex-row overflow-x-auto w-full">
 									{seasons.map(({ name, poster_path, season_number }) => (
-										<Link
-											to={`/tv/${id}/season/${season_number}`}
+										<a
+											href={`/tv/${id}/season/${season_number}`}
 											key={season_number}
+											target="_blank"
+											rel="noreferrer"
 										>
 											<MediaCard
 												title={name}
@@ -189,7 +191,7 @@ export const TvPage = () => {
 												poster_path={poster_path}
 												name={name}
 											/>
-										</Link>
+										</a>
 									))}
 								</div>
 							</div>
@@ -202,16 +204,18 @@ export const TvPage = () => {
 									<h1 className="text-3xl m-auto my-10 font-bold">Backdrops</h1>
 									<div className="flex flex-row flex-wrap justify-center">
 										{tvImages.backdrops.map((image) => (
-											<Link
-												to={`${process.env.REACT_APP_TMDB_IMAGE_URL}${image.file_path}`}
+											<a
+												href={`${process.env.REACT_APP_TMDB_IMAGE_URL}${image.file_path}`}
 												key={image.file_path}
+												target="_blank"
+												rel="noreferrer"
 											>
 												<img
 													className="w-96"
 													src={`${process.env.REACT_APP_TMDB_IMAGE_URL}${image.file_path}`}
 													alt="backdrop"
 												/>
-											</Link>
+											</a>
 										))}
 									</div>
 								</>

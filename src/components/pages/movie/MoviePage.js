@@ -67,7 +67,6 @@ export const MoviePage = () => {
 		fetchMovieData();
 	}, [movieID]);
 
-	console.log(movieData);
 	return (
 		<>
 			{loading ? (
@@ -178,16 +177,18 @@ export const MoviePage = () => {
 									<h1 className="text-3xl m-auto my-10 font-bold">Backdrops</h1>
 									<div className="flex flex-row flex-wrap justify-center">
 										{movieImages.backdrops.map((image) => (
-											<Link
-												to={`${process.env.REACT_APP_TMDB_IMAGE_URL}${image.file_path}`}
+											<a
+												href={`${process.env.REACT_APP_TMDB_IMAGE_URL}${image.file_path}`}
 												key={image.file_path}
+												target="_blank"
+												rel="noreferrer"
 											>
 												<img
 													className="w-96"
 													src={`${process.env.REACT_APP_TMDB_IMAGE_URL}${image.file_path}`}
 													alt="backdrop"
 												/>
-											</Link>
+											</a>
 										))}
 									</div>
 								</>
@@ -196,16 +197,18 @@ export const MoviePage = () => {
 								<h1 className="text-3xl m-auto my-10 font-bold">Posters</h1>
 								<div className="flex flex-row flex-wrap justify-center">
 									{movieImages.posters.map((image) => (
-										<Link
-											to={`${process.env.REACT_APP_TMDB_IMAGE_URL}${image.file_path}`}
+										<a
+											href={`${process.env.REACT_APP_TMDB_IMAGE_URL}${image.file_path}`}
 											key={image.file_path}
+											target="_blank"
+											rel="noreferrer"
 										>
 											<img
 												className="w-60"
 												src={`${process.env.REACT_APP_TMDB_IMAGE_URL}${image.file_path}`}
 												alt="poster"
 											/>
-										</Link>
+										</a>
 									))}
 								</div>
 							</div>
